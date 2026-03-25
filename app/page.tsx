@@ -117,7 +117,7 @@ export default function Home() {
               href="/product/trilight"
               className="hero-animate-delay-2 cta-glow button inline-block bg-white text-black py-4 px-10 sm:px-12 text-center text-sm hover:bg-gray-100 transition-colors"
             >
-              EXPLORE TRILIGHT
+              {t("home.hero.cta")}
             </Link>
           </div>
         </div>
@@ -167,9 +167,7 @@ export default function Home() {
                 {t("home.revolution.subtitle")}
               </p>
               <p className="text-lg text-gray-600 leading-relaxed">
-                One system that mounts to the truck, upgrades your existing triangles, creates directional
-                arrows, guides dock maneuvers, and turns into a wearable harness. Invented by a trucker
-                who was tired of the industry ignoring the problem.
+                {t("home.revolution.detail")}
               </p>
             </div>
           </div>
@@ -267,18 +265,16 @@ export default function Home() {
                 <div className="w-12 h-12 bg-[#E67E22]/20 rounded-xl flex items-center justify-center">
                   <Compass className="h-6 w-6 text-[#E67E22]" />
                 </div>
-                <span className="text-xs font-bold tracking-widest text-[#E67E22]">ONLY FROM TRILIGHT</span>
+                <span className="text-xs font-bold tracking-widest text-[#E67E22]">{t("home.directional.badge")}</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold mb-6 tracking-tight leading-tight">
-                IT DOESN&apos;T JUST WARN TRAFFIC. IT DIRECTS IT.
+                {t("home.directional.title")}
               </h2>
               <p className="text-gray-400 leading-relaxed mb-6">
-                Fold TRILIGHT to hide one side&apos;s LEDs and it becomes a flashing directional
-                arrow — actively guiding approaching traffic away from your breakdown. Traditional
-                triangles say &ldquo;something is here.&rdquo; TRILIGHT says &ldquo;go this way.&rdquo;
+                {t("home.directional.desc")}
               </p>
               <p className="text-gray-500 text-sm">
-                At highway speed, that&apos;s the difference between a near-miss and a collision.
+                {t("home.directional.note")}
               </p>
             </div>
             {/* Placeholder for directional video — replace src when available */}
@@ -286,7 +282,7 @@ export default function Home() {
               <div className="aspect-video rounded-xl overflow-hidden bg-gray-800 flex items-center justify-center">
                 <div className="text-center px-8">
                   <Compass className="h-16 w-16 text-[#E67E22]/40 mx-auto mb-4" />
-                  <p className="text-gray-500 text-sm">Directional arrow demo video coming soon</p>
+                  <p className="text-gray-500 text-sm">{t("home.directional.placeholder")}</p>
                 </div>
               </div>
             </div>
@@ -349,18 +345,12 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-black/30"></div>
           </div>
           <div className="bg-gray-900 text-white p-10 sm:p-14 flex flex-col justify-center">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-8 tracking-tight">SEE THE DIFFERENCE</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-8 tracking-tight">{t("home.comparison.title")}</h2>
             <div className="space-y-3 mb-6">
-              {[
-                "Active LED vs. passive reflectors",
-                "Visible 1+ mile vs. depends on headlight angle",
-                "Deploys in seconds vs. minutes walking the shoulder",
-                "Directs traffic vs. just warns",
-                "Protects the driver vs. just marks the truck",
-              ].map((item) => (
-                <div key={item} className="flex items-start gap-3 text-sm">
+              {["home.comparison.1", "home.comparison.2", "home.comparison.3", "home.comparison.4", "home.comparison.5"].map((key) => (
+                <div key={key} className="flex items-start gap-3 text-sm">
                   <Check className="h-4 w-4 text-[#E67E22] flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-300">{item}</span>
+                  <span className="text-gray-300">{t(key)}</span>
                 </div>
               ))}
             </div>
@@ -368,7 +358,7 @@ export default function Home() {
               href="/product/trilight"
               className="inline-flex items-center gap-2 text-[#E67E22] font-medium text-sm hover:text-[#D35400] transition-colors"
             >
-              See full product details <ArrowRight className="h-4 w-4" />
+              {t("home.comparison.cta")} <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </div>
@@ -430,14 +420,14 @@ export default function Home() {
       <section className="bg-gray-900 py-20 sm:py-24 scroll-reveal">
         <div className="container mx-auto px-6">
           <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">DON&apos;T MISS THE LAUNCH</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">{t("home.waitlist.title")}</h2>
             <p className="text-gray-400 mb-10">
-              TRILIGHT is almost here. Join the waitlist and be the first to get yours.
+              {t("home.waitlist.subtitle")}
             </p>
 
             {(waitlistSubmitted || bottomSubmitted) ? (
               <div className="bg-white/5 border border-white/10 rounded-lg px-6 py-5 inline-block">
-                <p className="text-white font-medium">You&apos;re on the list. We&apos;ll be in touch.</p>
+                <p className="text-white font-medium">{t("home.waitlist.success")}</p>
               </div>
             ) : (
               <form
@@ -453,7 +443,7 @@ export default function Home() {
                   type="email"
                   value={bottomEmail}
                   onChange={(e) => setBottomEmail(e.target.value)}
-                  placeholder="Enter your email"
+                  placeholder={t("home.waitlist.placeholder")}
                   required
                   className="flex-1 px-4 py-4 rounded-md bg-white/5 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-[#E67E22]"
                 />
@@ -461,22 +451,22 @@ export default function Home() {
                   type="submit"
                   className="cta-glow button bg-[#E67E22] text-white py-4 px-8 rounded-md font-medium hover:bg-[#D35400] transition-colors whitespace-nowrap"
                 >
-                  JOIN WAITLIST
+                  {t("home.waitlist.cta")}
                 </button>
               </form>
             )}
 
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center text-sm text-gray-500">
               <Link href="/product/trilight" className="hover:text-white transition-colors">
-                See the product
+                {t("home.waitlist.link1")}
               </Link>
               <span className="hidden sm:inline">·</span>
               <Link href="/our-story" className="hover:text-white transition-colors">
-                Read our story
+                {t("home.waitlist.link2")}
               </Link>
               <span className="hidden sm:inline">·</span>
               <Link href="/enterprise" className="hover:text-white transition-colors">
-                Fleet solutions
+                {t("home.waitlist.link3")}
               </Link>
             </div>
           </div>

@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Play, X, Check, Zap, Clock, Shield, Users, Compass, ArrowRight, Mail } from "lucide-react"
 import { toast } from "sonner"
+import { useLanguage } from "@/contexts/language-context"
 
 const productMedia = [
   { type: "image" as const, src: "/product image 1.png", alt: "TRILIGHT LED Safety Triangle Kit" },
@@ -38,6 +39,7 @@ export default function TrilightProductPage() {
   const [submitted, setSubmitted] = useState(false)
   const [bottomEmail, setBottomEmail] = useState("")
   const [bottomSubmitted, setBottomSubmitted] = useState(false)
+  const { t } = useLanguage()
 
   const handleVideoPlay = (videoSrc: string) => {
     setCurrentVideo(videoSrc)
@@ -105,11 +107,11 @@ export default function TrilightProductPage() {
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Breadcrumbs */}
         <div className="text-xs sm:text-sm mb-4 sm:mb-6">
-          <Link href="/" className="text-gray-500 hover:text-black transition-colors">Home</Link>
+          <Link href="/" className="text-gray-500 hover:text-black transition-colors">{t("product2.breadcrumb.home")}</Link>
           {" / "}
-          <Link href="/shop-all" className="text-gray-500 hover:text-black transition-colors">Products</Link>
+          <Link href="/shop-all" className="text-gray-500 hover:text-black transition-colors">{t("product2.breadcrumb.products")}</Link>
           {" / "}
-          <span className="font-medium">TRILIGHT LED Safety System</span>
+          <span className="font-medium">{t("product2.breadcrumb.current")}</span>
         </div>
 
         {/* Product Hero */}
@@ -172,25 +174,23 @@ export default function TrilightProductPage() {
           <div>
             <div className="mb-6">
               <div className="inline-block bg-[#E67E22]/10 text-[#E67E22] text-xs font-bold tracking-widest px-3 py-1.5 rounded-full mb-4">
-                COMING SOON
+                {t("product2.badge")}
               </div>
-              <h1 className="text-2xl sm:text-3xl font-bold mb-3">TRILIGHT LED SAFETY SYSTEM</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold mb-3">{t("product2.title")}</h1>
               <p className="text-gray-600 leading-relaxed">
-                The complete LED visibility system for professional drivers. Mounts to your truck,
-                upgrades your existing triangles, directs traffic, guides dock maneuvers, and even
-                lets you wear it. One product, five ways to stay safe.
+                {t("product2.desc")}
               </p>
             </div>
 
             {/* Key Specs */}
             <div className="border-t border-b py-6 mb-6 space-y-3">
               {[
-                "360° LED visibility — seen from over 1 mile away",
-                "Magnetic mount — deploys in seconds",
-                "48-hour rechargeable battery (USB-C)",
-                "Weatherproof & impact-resistant",
-                "Solid + flashing light modes",
-                "Innovative directional folding",
+                t("product2.spec.1"),
+                t("product2.spec.2"),
+                t("product2.spec.3"),
+                t("product2.spec.4"),
+                t("product2.spec.5"),
+                t("product2.spec.6"),
               ].map((spec) => (
                 <div key={spec} className="flex items-start text-sm">
                   <Check className="h-4 w-4 mr-2 text-[#E67E22] flex-shrink-0 mt-0.5" />
@@ -204,13 +204,13 @@ export default function TrilightProductPage() {
               {submitted ? (
                 <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
                   <Check className="h-8 w-8 text-green-600 mx-auto mb-3" />
-                  <p className="font-bold text-green-900">You&apos;re on the waitlist!</p>
-                  <p className="text-sm text-green-700 mt-1">We&apos;ll notify you as soon as TRILIGHT is ready to ship.</p>
+                  <p className="font-bold text-green-900">{t("product2.waitlist.onList")}</p>
+                  <p className="text-sm text-green-700 mt-1">{t("product2.waitlist.onListDetail")}</p>
                 </div>
               ) : (
                 <>
                   <p className="text-sm text-gray-500 mb-3">
-                    We&apos;re finalizing manufacturing. Join the waitlist to be first in line.
+                    {t("product2.waitlist.manufacturing")}
                   </p>
                   <form
                     onSubmit={(e) => {
@@ -224,7 +224,7 @@ export default function TrilightProductPage() {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Enter your email"
+                      placeholder={t("product2.waitlist.placeholder")}
                       required
                       className="flex-1 border border-gray-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#E67E22]"
                     />
@@ -232,7 +232,7 @@ export default function TrilightProductPage() {
                       type="submit"
                       className="cta-glow bg-[#E67E22] text-white font-medium py-3 px-6 rounded-md hover:bg-[#D35400] transition-colors whitespace-nowrap"
                     >
-                      NOTIFY ME
+                      {t("product2.waitlist.cta")}
                     </button>
                   </form>
                 </>
@@ -241,16 +241,15 @@ export default function TrilightProductPage() {
 
             {/* Fleet CTA */}
             <div className="bg-gray-50 p-5 rounded-lg border border-gray-200">
-              <h3 className="font-bold mb-2">NEED MULTIPLE UNITS?</h3>
+              <h3 className="font-bold mb-2">{t("product2.fleet.title")}</h3>
               <p className="text-sm text-gray-600 mb-3">
-                Volume pricing available for fleets. We&apos;ll work with you on a package
-                that fits your operation.
+                {t("product2.fleet.desc")}
               </p>
               <Link
                 href="/enterprise"
                 className="inline-flex items-center gap-2 text-sm font-medium text-[#E67E22] hover:text-[#D35400] transition-colors"
               >
-                Talk to us about fleet pricing <ArrowRight className="h-4 w-4" />
+                {t("product2.fleet.cta")} <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
           </div>
@@ -273,49 +272,49 @@ export default function TrilightProductPage() {
           {/* Text side */}
           <div className="bg-black text-white p-10 sm:p-14 lg:p-16 flex flex-col justify-center">
             <h2 className="text-3xl sm:text-4xl font-bold mb-8 tracking-tight">
-              SEE THE DIFFERENCE
+              {t("product2.comparison.title")}
             </h2>
             <div className="space-y-8">
               <div>
-                <p className="text-xs font-bold tracking-widest text-red-400 mb-3">TRADITIONAL TRIANGLES</p>
+                <p className="text-xs font-bold tracking-widest text-red-400 mb-3">{t("product2.comparison.oldLabel")}</p>
                 <ul className="space-y-2 text-gray-400 text-sm">
                   <li className="flex items-start gap-2">
                     <X className="h-4 w-4 text-red-400 flex-shrink-0 mt-0.5" />
-                    Depends on headlights to reflect — invisible in rain, fog, curves
+                    {t("product2.comparison.old.1")}
                   </li>
                   <li className="flex items-start gap-2">
                     <X className="h-4 w-4 text-red-400 flex-shrink-0 mt-0.5" />
-                    Minutes to deploy — driver walks along active highway
+                    {t("product2.comparison.old.2")}
                   </li>
                   <li className="flex items-start gap-2">
                     <X className="h-4 w-4 text-red-400 flex-shrink-0 mt-0.5" />
-                    Static — no directional guidance for traffic
+                    {t("product2.comparison.old.3")}
                   </li>
                   <li className="flex items-start gap-2">
                     <X className="h-4 w-4 text-red-400 flex-shrink-0 mt-0.5" />
-                    Only protects the vehicle, not the driver
+                    {t("product2.comparison.old.4")}
                   </li>
                 </ul>
               </div>
               <div className="h-px bg-white/10"></div>
               <div>
-                <p className="text-xs font-bold tracking-widest text-[#E67E22] mb-3">TRILIGHT</p>
+                <p className="text-xs font-bold tracking-widest text-[#E67E22] mb-3">{t("product2.comparison.newLabel")}</p>
                 <ul className="space-y-2 text-gray-300 text-sm">
                   <li className="flex items-start gap-2">
                     <Check className="h-4 w-4 text-[#E67E22] flex-shrink-0 mt-0.5" />
-                    Active LED — generates its own 360° light, visible 1+ mile
+                    {t("product2.comparison.new.1")}
                   </li>
                   <li className="flex items-start gap-2">
                     <Check className="h-4 w-4 text-[#E67E22] flex-shrink-0 mt-0.5" />
-                    Seconds to deploy — magnetic mount, no walking required
+                    {t("product2.comparison.new.2")}
                   </li>
                   <li className="flex items-start gap-2">
                     <Check className="h-4 w-4 text-[#E67E22] flex-shrink-0 mt-0.5" />
-                    Folds into directional arrows — guides traffic away
+                    {t("product2.comparison.new.3")}
                   </li>
                   <li className="flex items-start gap-2">
                     <Check className="h-4 w-4 text-[#E67E22] flex-shrink-0 mt-0.5" />
-                    Wearable harness — the driver is visible too
+                    {t("product2.comparison.new.4")}
                   </li>
                 </ul>
               </div>
@@ -328,7 +327,7 @@ export default function TrilightProductPage() {
       <section className="bg-gray-50 py-20 sm:py-24 scroll-reveal">
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4">SEE IT IN ACTION</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4">{t("product2.video.title")}</h2>
           </div>
           <div
             className="aspect-video rounded-xl overflow-hidden cursor-pointer group relative"
@@ -404,9 +403,9 @@ export default function TrilightProductPage() {
       {/* 5 Use Cases */}
       <section className="bg-white py-20 sm:py-24">
         <div className="container mx-auto px-4 max-w-7xl scroll-reveal">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-center">ONE SYSTEM. FIVE WAYS TO PROTECT.</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-center">{t("product2.usecases.title")}</h2>
           <p className="text-gray-600 text-center max-w-2xl mx-auto mb-14">
-            Every feature was invented by a working truck driver who lived the problems these solve.
+            {t("product2.usecases.subtitle")}
           </p>
 
           {/* Directional Arrows — hero card */}
@@ -416,12 +415,9 @@ export default function TrilightProductPage() {
                 <Compass className="h-8 w-8 text-[#E67E22]" />
               </div>
               <div>
-                <h3 className="text-xl font-bold mb-3">DIRECTIONAL ARROWS — THE FEATURE NOBODY ELSE HAS</h3>
+                <h3 className="text-xl font-bold mb-3">{t("product2.usecase.arrows.title")}</h3>
                 <p className="text-gray-400 leading-relaxed">
-                  Fold TRILIGHT to hide one side&apos;s LEDs and it becomes a flashing directional pointer —
-                  actively guiding approaching traffic away from your breakdown. Traditional triangles say
-                  &ldquo;something is here.&rdquo; TRILIGHT says &ldquo;go this way.&rdquo; At highway speed,
-                  that&apos;s a meaningful difference.
+                  {t("product2.usecase.arrows.desc")}
                 </p>
               </div>
             </div>
@@ -434,10 +430,9 @@ export default function TrilightProductPage() {
                   <Zap className="h-5 w-5 text-[#E67E22]" />
                 </div>
                 <div>
-                  <h3 className="font-bold mb-2">TRUCK-MOUNTED WARNING</h3>
+                  <h3 className="font-bold mb-2">{t("product2.usecase.mount.title")}</h3>
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    Magnetic mount attaches to the trailer instantly. Powerful LED array flashes with
-                    360° visibility from over a mile away. No walking down the shoulder — seconds to deploy.
+                    {t("product2.usecase.mount.desc")}
                   </p>
                 </div>
               </div>
@@ -449,11 +444,9 @@ export default function TrilightProductPage() {
                   <Shield className="h-5 w-5 text-[#E67E22]" />
                 </div>
                 <div>
-                  <h3 className="font-bold mb-2">TRIANGLE UPGRADE</h3>
+                  <h3 className="font-bold mb-2">{t("product2.usecase.triangle.title")}</h3>
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    Fits directly on top of existing plastic safety triangles — turns a passive
-                    reflector into an active LED beacon. Keep your current equipment and make it
-                    dramatically more visible.
+                    {t("product2.usecase.triangle.desc")}
                   </p>
                 </div>
               </div>
@@ -465,11 +458,9 @@ export default function TrilightProductPage() {
                   <Users className="h-5 w-5 text-[#E67E22]" />
                 </div>
                 <div>
-                  <h3 className="font-bold mb-2">WEARABLE HARNESS</h3>
+                  <h3 className="font-bold mb-2">{t("product2.usecase.harness.title")}</h3>
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    The driver needs to be seen, not just the truck. TRILIGHT&apos;s harness model lets
-                    you wear it during inspections, roadside work, or any time you&apos;re on foot near
-                    traffic. Visible from every angle.
+                    {t("product2.usecase.harness.desc")}
                   </p>
                 </div>
               </div>
@@ -481,11 +472,9 @@ export default function TrilightProductPage() {
                   <Clock className="h-5 w-5 text-[#E67E22]" />
                 </div>
                 <div>
-                  <h3 className="font-bold mb-2">DOCK GUIDANCE</h3>
+                  <h3 className="font-bold mb-2">{t("product2.usecase.dock.title")}</h3>
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    Hook onto loading bays as a bright reference point for backing maneuvers.
-                    Clear illuminated target in tight spaces — reduces the dock damage that costs
-                    fleets thousands every year.
+                    {t("product2.usecase.dock.desc")}
                   </p>
                 </div>
               </div>
@@ -499,12 +488,12 @@ export default function TrilightProductPage() {
         <div className="container mx-auto px-4 max-w-3xl scroll-reveal">
           <div className="flex flex-col sm:flex-row gap-8 items-start">
             <div className="flex-1">
-              <h3 className="text-xl font-bold mb-4">WHAT&apos;S IN THE BOX</h3>
+              <h3 className="text-xl font-bold mb-4">{t("product2.box.title")}</h3>
               <div className="space-y-2">
                 {[
-                  "TRILIGHT LED Safety Triangle",
-                  "USB-C charging cable",
-                  "Quick start guide",
+                  t("product2.box.1"),
+                  t("product2.box.2"),
+                  t("product2.box.3"),
                 ].map((item) => (
                   <div key={item} className="flex items-center text-sm">
                     <div className="w-1.5 h-1.5 bg-black rounded-full mr-3"></div>
@@ -514,12 +503,12 @@ export default function TrilightProductPage() {
               </div>
             </div>
             <div className="flex-1">
-              <h3 className="text-xl font-bold mb-4">AVAILABLE ADD-ONS</h3>
+              <h3 className="text-xl font-bold mb-4">{t("product2.addons.title")}</h3>
               <div className="space-y-2">
                 {[
-                  "Wearable safety harness",
-                  "Protective carrying case",
-                  "Elevation pole",
+                  t("product2.addons.1"),
+                  t("product2.addons.2"),
+                  t("product2.addons.3"),
                 ].map((item) => (
                   <div key={item} className="flex items-center text-sm">
                     <div className="w-1.5 h-1.5 bg-[#E67E22] rounded-full mr-3"></div>
@@ -527,7 +516,7 @@ export default function TrilightProductPage() {
                   </div>
                 ))}
               </div>
-              <p className="text-xs text-gray-500 mt-3">Final packaging and add-on pricing being finalized.</p>
+              <p className="text-xs text-gray-500 mt-3">{t("product2.addons.note")}</p>
             </div>
           </div>
         </div>
@@ -536,15 +525,14 @@ export default function TrilightProductPage() {
       {/* Bottom CTA — waitlist repeat */}
       <section className="bg-black py-20 sm:py-24 scroll-reveal">
         <div className="container mx-auto px-4 max-w-2xl text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">DON&apos;T MISS THE LAUNCH</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">{t("product2.bottom.title")}</h2>
           <p className="text-gray-400 mb-10">
-            We&apos;re finalizing manufacturing and will be shipping soon.
-            Get on the waitlist and we&apos;ll let you know the moment TRILIGHT is available.
+            {t("product2.bottom.desc")}
           </p>
 
           {(submitted || bottomSubmitted) ? (
             <div className="bg-white/5 border border-white/10 rounded-lg px-6 py-5 inline-block">
-              <p className="text-white font-medium">You&apos;re on the list. We&apos;ll be in touch.</p>
+              <p className="text-white font-medium">{t("product2.bottom.success")}</p>
             </div>
           ) : (
             <form
@@ -559,7 +547,7 @@ export default function TrilightProductPage() {
                 type="email"
                 value={bottomEmail}
                 onChange={(e) => setBottomEmail(e.target.value)}
-                placeholder="Enter your email"
+                placeholder={t("product2.bottom.placeholder")}
                 required
                 className="flex-1 px-4 py-4 rounded-md bg-white/5 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-[#E67E22]"
               />
@@ -567,7 +555,7 @@ export default function TrilightProductPage() {
                 type="submit"
                 className="cta-glow bg-[#E67E22] text-white py-4 px-8 rounded-md font-medium hover:bg-[#D35400] transition-colors whitespace-nowrap"
               >
-                JOIN WAITLIST
+                {t("product2.bottom.cta")}
               </button>
             </form>
           )}
@@ -589,7 +577,7 @@ export default function TrilightProductPage() {
               href="/enterprise"
               className="inline-flex items-center gap-1 text-[#E67E22] hover:text-[#D35400] transition-colors"
             >
-              Fleet inquiries <ArrowRight className="h-3.5 w-3.5" />
+              {t("product2.bottom.fleetLink")} <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
         </div>

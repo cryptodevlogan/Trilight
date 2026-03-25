@@ -3,8 +3,11 @@
 import Image from "next/image"
 import Link from "next/link"
 import { AlertTriangle, ArrowRight } from "lucide-react"
+import { useLanguage } from "@/contexts/language-context"
 
 export default function OurStoryPage() {
+  const { t } = useLanguage()
+
   return (
     <div>
       <div className="h-[96px]"></div>
@@ -25,15 +28,13 @@ export default function OurStoryPage() {
           <div className="max-w-3xl">
             <div className="hero-animate flex items-center gap-2 mb-8">
               <AlertTriangle className="h-4 w-4 text-[#E67E22]" />
-              <span className="text-xs font-medium text-[#E67E22] tracking-[0.2em]">OUR STORY</span>
+              <span className="text-xs font-medium text-[#E67E22] tracking-[0.2em]">{t("story2.badge")}</span>
             </div>
             <h1 className="hero-animate-delay-1 text-4xl sm:text-5xl lg:text-6xl mb-8 tracking-tight font-bold leading-[1.1]">
-              A TRUCKER SAW THE PROBLEM EVERY NIGHT. SO HE BUILT THE SOLUTION.
+              {t("story2.hero.title")}
             </h1>
             <p className="hero-animate-delay-2 text-lg sm:text-xl leading-relaxed text-gray-400 max-w-2xl">
-              TRILIGHT wasn&apos;t invented in a lab. It was invented by a working truck driver
-              named Willy — because he was tired of the industry treating roadside deaths as
-              an acceptable cost of doing business.
+              {t("story2.hero.subtitle")}
             </p>
           </div>
         </div>
@@ -44,22 +45,17 @@ export default function OurStoryPage() {
         <div className="max-w-4xl mx-auto px-6">
           <div className="scroll-reveal">
             <p className="text-2xl sm:text-3xl font-bold leading-snug text-gray-900 mb-8">
-              Every trucker knows the feeling.
+              {t("story2.problem.intro")}
             </p>
             <div className="space-y-6 text-lg leading-relaxed text-gray-600">
               <p>
-                You&apos;re broken down on the shoulder. It&apos;s dark. Traffic is moving at 70 mph three feet
-                from where you&apos;re standing. You grab the plastic reflective triangles that FMCSA requires
-                you to carry and start walking — 10 feet back, then 100 feet, then 200 feet — setting them
-                on the ground and hoping the headlights of approaching cars will catch the tiny reflective
-                surface before it&apos;s too late.
+                {t("story2.problem.p1")}
               </p>
               <p>
-                It&apos;s the most dangerous part of any breakdown. And the equipment you&apos;re using to
-                protect yourself hasn&apos;t been meaningfully updated in half a century.
+                {t("story2.problem.p2")}
               </p>
               <p className="text-gray-900 font-medium text-xl">
-                Willy knew there had to be something better. Not eventually. Now.
+                {t("story2.problem.p3")}
               </p>
             </div>
           </div>
@@ -72,30 +68,20 @@ export default function OurStoryPage() {
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center scroll-reveal">
             <div className="lg:col-span-3">
               <h2 className="text-3xl sm:text-4xl font-bold mb-8 tracking-tight text-gray-900">
-                THE MAN BEHIND TRILIGHT
+                {t("story2.willy.title")}
               </h2>
               <div className="space-y-6 text-lg leading-relaxed text-gray-600">
                 <p>
-                  Willy came to America with nothing but determination. He built a stoneworking
-                  business in Virginia from the ground up. But the road kept calling — and later in
-                  life, when most people think about slowing down, he got his CDL and became a
-                  professional truck driver.
+                  {t("story2.willy.p1")}
                 </p>
                 <p>
-                  Mile after mile, he saw the same thing every trucker sees: the fear of being on
-                  the shoulder at night, the inadequacy of the equipment, the close calls. The
-                  difference is Willy had always had a builder&apos;s mind. He didn&apos;t just see
-                  problems — he saw solutions.
+                  {t("story2.willy.p2")}
                 </p>
                 <p>
-                  Every feature of TRILIGHT came from something Willy experienced on the road. The
-                  magnetic mount, because fumbling with triangles on the shoulder wastes precious
-                  time. The wearable harness, because the driver needs to be seen, not just the truck.
-                  The directional folding, because traffic needs to know which way to go. The dock
-                  hook, because backing into a dark loading bay shouldn&apos;t mean guessing.
+                  {t("story2.willy.p3")}
                 </p>
                 <p className="text-gray-900 font-medium">
-                  All of it, from one trucker who refused to accept the status quo.
+                  {t("story2.willy.p4")}
                 </p>
               </div>
             </div>
@@ -110,9 +96,9 @@ export default function OurStoryPage() {
                   />
                 </div>
                 <div className="absolute -bottom-4 -left-4 bg-black text-white p-5 rounded-xl shadow-xl">
-                  <p className="font-bold text-sm">WILLY</p>
-                  <p className="text-xs text-gray-400">Founder &amp; Inventor</p>
-                  <p className="text-xs text-gray-400">Professional Truck Driver</p>
+                  <p className="font-bold text-sm">{t("story2.willy.name")}</p>
+                  <p className="text-xs text-gray-400">{t("story2.willy.role1")}</p>
+                  <p className="text-xs text-gray-400">{t("story2.willy.role2")}</p>
                 </div>
               </div>
             </div>
@@ -125,11 +111,10 @@ export default function OurStoryPage() {
         <div className="max-w-5xl mx-auto px-6">
           <div className="text-center mb-16 scroll-reveal">
             <h2 className="text-3xl sm:text-4xl font-bold mb-6 tracking-tight">
-              WHAT HE BUILT
+              {t("story2.built.title")}
             </h2>
             <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-              Not just a better triangle. A complete visibility system designed by someone who
-              understands what the job actually demands.
+              {t("story2.built.subtitle")}
             </p>
           </div>
 
@@ -145,24 +130,24 @@ export default function OurStoryPage() {
             <div className="space-y-6">
               {[
                 {
-                  label: "ACTIVE LED VISIBILITY",
-                  text: "Generates its own 360° light. Visible from over a mile. Doesn't depend on someone else's headlights.",
+                  label: t("story2.built.led.label"),
+                  text: t("story2.built.led.text"),
                 },
                 {
-                  label: "MAGNETIC MOUNT",
-                  text: "Attaches to any metal surface in seconds. No walking down the shoulder to place triangles.",
+                  label: t("story2.built.mount.label"),
+                  text: t("story2.built.mount.text"),
                 },
                 {
-                  label: "WEARABLE HARNESS",
-                  text: "So the driver is seen — not just the truck. The only product that protects the person, not just the vehicle.",
+                  label: t("story2.built.harness.label"),
+                  text: t("story2.built.harness.text"),
                 },
                 {
-                  label: "DIRECTIONAL FOLDING",
-                  text: "Fold to hide one side's LEDs and it becomes a flashing arrow — guiding traffic away from the breakdown.",
+                  label: t("story2.built.fold.label"),
+                  text: t("story2.built.fold.text"),
                 },
                 {
-                  label: "DOCK GUIDANCE",
-                  text: "Hook onto loading bays as a bright reference point for backing. Simple fix for expensive dock damage.",
+                  label: t("story2.built.dock.label"),
+                  text: t("story2.built.dock.text"),
                 },
               ].map((item) => (
                 <div key={item.label} className="flex gap-4 items-start">
@@ -186,7 +171,7 @@ export default function OurStoryPage() {
                 />
               </video>
             </div>
-            <p className="text-center text-sm text-gray-500 mt-4">TRILIGHT deployed on the roadside</p>
+            <p className="text-center text-sm text-gray-500 mt-4">{t("story2.built.videoCaption")}</p>
           </div>
         </div>
       </section>
@@ -195,31 +180,28 @@ export default function OurStoryPage() {
       <section className="bg-white py-20 sm:py-24">
         <div className="max-w-4xl mx-auto px-6 scroll-reveal">
           <h2 className="text-3xl sm:text-4xl font-bold mb-12 tracking-tight text-gray-900 text-center">
-            WHY WE DO THIS
+            {t("story2.values.title")}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             <div className="text-center">
               <div className="text-5xl font-bold text-[#E67E22] mb-4">01</div>
-              <h3 className="text-lg font-bold mb-3 text-gray-900">SAVE LIVES</h3>
+              <h3 className="text-lg font-bold mb-3 text-gray-900">{t("story2.values.1.title")}</h3>
               <p className="text-gray-600 text-sm leading-relaxed">
-                Roadside deaths aren&apos;t an acceptable cost of trucking. Better equipment means
-                fewer drivers struck on the shoulder. That&apos;s the whole point.
+                {t("story2.values.1.text")}
               </p>
             </div>
             <div className="text-center">
               <div className="text-5xl font-bold text-[#E67E22] mb-4">02</div>
-              <h3 className="text-lg font-bold mb-3 text-gray-900">BUILT FROM THE ROAD</h3>
+              <h3 className="text-lg font-bold mb-3 text-gray-900">{t("story2.values.2.title")}</h3>
               <p className="text-gray-600 text-sm leading-relaxed">
-                Every feature exists because a trucker needed it. Not because a focus group
-                suggested it. The road is the R&amp;D department.
+                {t("story2.values.2.text")}
               </p>
             </div>
             <div className="text-center">
               <div className="text-5xl font-bold text-[#E67E22] mb-4">03</div>
-              <h3 className="text-lg font-bold mb-3 text-gray-900">JUST THE START</h3>
+              <h3 className="text-lg font-bold mb-3 text-gray-900">{t("story2.values.3.title")}</h3>
               <p className="text-gray-600 text-sm leading-relaxed">
-                TRILIGHT is the first product, not the last. We&apos;re finalizing manufacturing
-                now with a full lineup of safety innovations coming behind it.
+                {t("story2.values.3.text")}
               </p>
             </div>
           </div>
@@ -230,24 +212,23 @@ export default function OurStoryPage() {
       <section className="bg-gray-900 text-white py-20 scroll-reveal">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold mb-6 tracking-tight">
-            SUPPORT A BUSINESS THAT GETS IT
+            {t("story2.cta.title")}
           </h2>
           <p className="text-lg text-gray-400 leading-relaxed mb-10">
-            When you buy TRILIGHT, you&apos;re buying from a trucker who built what he
-            wished existed. Family-owned, road-tested, made in America.
+            {t("story2.cta.desc")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/product/trilight"
               className="cta-glow inline-flex items-center justify-center gap-2 bg-[#E67E22] text-white py-4 px-8 text-lg font-medium hover:bg-[#D35400] transition-colors"
             >
-              SHOP TRILIGHT <ArrowRight className="h-5 w-5" />
+              {t("story2.cta.shop")} <ArrowRight className="h-5 w-5" />
             </Link>
             <Link
               href="/enterprise"
               className="border-2 border-white/30 text-white py-4 px-8 text-lg font-medium hover:bg-white hover:text-black transition-colors"
             >
-              FLEET SOLUTIONS
+              {t("story2.cta.fleet")}
             </Link>
           </div>
         </div>

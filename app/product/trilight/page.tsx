@@ -62,7 +62,7 @@ export default function TrilightProductPage() {
     try {
       const data = new FormData()
       data.append("email", emailVal)
-      data.append("_subject", "Waitlist Signup — TRILIGHT Product Page")
+      data.append("_subject", "Waitlist Signup - TRILIGHT Product Page")
       data.append("_template", "table")
       const res = await fetch("https://formsubmit.co/ajax/Sales@trilightfleet.com", {
         method: "POST",

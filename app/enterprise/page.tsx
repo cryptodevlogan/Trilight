@@ -422,7 +422,7 @@ export default function EnterprisePage() {
                   <>
                     <h3 className="text-xl font-bold mb-6">{t("ent.contact.formTitle")}</h3>
                     <form onSubmit={handleSubmit} className="space-y-4">
-                      <input type="hidden" name="_subject" value="Fleet Safety Inquiry — TRILIGHT" />
+                      <input type="hidden" name="_subject" value="Fleet Safety Inquiry - TRILIGHT" />
                       <input type="hidden" name="_template" value="table" />
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <input

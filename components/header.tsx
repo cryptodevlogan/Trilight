@@ -38,8 +38,8 @@ export default function Header() {
             <Link href="/enterprise" className="nav-link text-sm">
               {t("nav.enterprise")}
             </Link>
-            <Link href="#" className="nav-link text-sm text-red-600">
-              {t("nav.sale")}
+            <Link href="/our-story" className="nav-link text-sm">
+              {t("footer.ourStory")}
             </Link>
           </div>
         </div>
@@ -70,13 +70,11 @@ export default function Header() {
               onClick={() => setLangOpen(!langOpen)}
               className="flex items-center gap-1.5 nav-link text-sm"
             >
-              <Image
-                src="/us-flag.png"
-                alt=""
-                width={24}
-                height={16}
-                className="h-4 w-auto"
-              />
+              {lang === "en" ? (
+                <Image src="/us-flag.png" alt="" width={24} height={16} className="h-4 w-auto" />
+              ) : (
+                <span className="text-base leading-none">🇲🇽</span>
+              )}
               <span className="text-xs font-medium">{lang.toUpperCase()}</span>
               <ChevronDown className={`h-3.5 w-3.5 transition-transform ${langOpen ? "rotate-180" : ""}`} />
             </button>

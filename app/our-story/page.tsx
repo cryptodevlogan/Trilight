@@ -65,7 +65,7 @@ export default function OurStoryPage() {
       {/* Willy */}
       <section className="bg-gray-50 py-20 sm:py-24">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center scroll-reveal">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-center scroll-reveal">
             <div className="lg:col-span-3">
               <h2 className="text-3xl sm:text-4xl font-bold mb-8 tracking-tight text-gray-900">
                 {t("story2.willy.title")}
@@ -95,7 +95,7 @@ export default function OurStoryPage() {
                     className="object-cover object-[center_20%]"
                   />
                 </div>
-                <div className="absolute -bottom-4 -left-4 bg-black text-white p-5 rounded-xl shadow-xl">
+                <div className="absolute -bottom-4 left-0 sm:-left-4 bg-black text-white p-4 sm:p-5 rounded-xl shadow-xl">
                   <p className="font-bold text-sm">{t("story2.willy.name")}</p>
                   <p className="text-xs text-gray-400">{t("story2.willy.role1")}</p>
                   <p className="text-xs text-gray-400">{t("story2.willy.role2")}</p>

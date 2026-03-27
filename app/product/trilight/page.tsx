@@ -145,7 +145,7 @@ export default function TrilightProductPage() {
                 </div>
               )}
             </div>
-            <div className="grid grid-cols-6 gap-1 sm:gap-2">
+            <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
               {productMedia.map((media, index) => (
                 <div
                   key={index}
@@ -218,7 +218,7 @@ export default function TrilightProductPage() {
                       if (!email) return
                       submitWaitlist(email, () => { setSubmitted(true); setBottomSubmitted(true) })
                     }}
-                    className="flex gap-2"
+                    className="flex flex-col sm:flex-row gap-2"
                   >
                     <input
                       type="email"

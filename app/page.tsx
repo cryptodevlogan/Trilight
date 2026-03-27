@@ -102,13 +102,13 @@ export default function Home() {
           </video>
         </div>
         <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center">
-          <div className="max-w-md ml-0 md:ml-12 lg:ml-24">
-            <h1 className="hero-animate text-5xl sm:text-6xl mb-4 tracking-tight whitespace-nowrap font-bold">
+          <div className="max-w-xs sm:max-w-md ml-0 md:ml-12 lg:ml-24">
+            <h1 className="hero-animate text-3xl sm:text-5xl md:text-6xl mb-4 tracking-tight font-bold">
               {t("home.hero.title")}
             </h1>
           </div>
-          <div className="max-w-md ml-0 md:ml-12 lg:ml-24 mt-0">
-            <p className="hero-animate-delay-1 text-lg sm:text-xl mb-8 sm:mb-10 font-light leading-relaxed">
+          <div className="max-w-xs sm:max-w-md ml-0 md:ml-12 lg:ml-24 mt-0">
+            <p className="hero-animate-delay-1 text-base sm:text-xl mb-8 sm:mb-10 font-light leading-relaxed">
               {t("home.hero.subtitle")}
             </p>
           </div>

@@ -340,7 +340,7 @@ export default function EnterprisePage() {
                     {t("ent.earlyAccess.cta")} <ArrowRight className="h-5 w-5" />
                   </a>
                 </div>
-                <div className="w-full lg:w-80 flex-shrink-0">
+                <div className="w-full max-w-xs mx-auto lg:mx-0 lg:w-80 flex-shrink-0">
                   <div className="relative aspect-square rounded-xl overflow-hidden">
                     <Image
                       src="/product image 1.png"

@@ -277,13 +277,11 @@ export default function Home() {
                 {t("home.directional.note")}
               </p>
             </div>
-            {/* Placeholder for directional video — replace src when available */}
             <div className="flex-1 w-full">
-              <div className="aspect-video rounded-xl overflow-hidden bg-gray-800 flex items-center justify-center">
-                <div className="text-center px-8">
-                  <Compass className="h-16 w-16 text-[#E67E22]/40 mx-auto mb-4" />
-                  <p className="text-gray-500 text-sm">{t("home.directional.placeholder")}</p>
-                </div>
+              <div className="aspect-video rounded-xl overflow-hidden">
+                <video autoPlay muted loop playsInline className="w-full h-full object-cover">
+                  <source src="/chevron.mp4" type="video/mp4" />
+                </video>
               </div>
             </div>
           </div>

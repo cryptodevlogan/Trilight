@@ -47,11 +47,18 @@ export default function Header() {
         <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center h-full">
           <Link href="/">
             <Image
-              src="/tritech-logo.png"
-              alt="TriTech"
+              src="/tritech-logo-dark.png"
+              alt="Trittech"
               width={200}
               height={50}
-              className="h-[35px] sm:h-[45px] w-auto"
+              className="h-[30px] w-auto lg:hidden"
+            />
+            <Image
+              src="/tritech-logo.png"
+              alt="Trittech"
+              width={200}
+              height={50}
+              className="hidden lg:block h-[45px] w-auto"
             />
           </Link>
         </div>

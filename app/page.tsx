@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { X, Play, Zap, Clock, BatteryCharging, Compass, Check, ArrowRight } from "lucide-react"
@@ -22,6 +22,15 @@ export default function Home() {
   const [waitlistSubmitted, setWaitlistSubmitted] = useState(false)
   const [bottomEmail, setBottomEmail] = useState("")
   const [bottomSubmitted, setBottomSubmitted] = useState(false)
+
+  const heroVideoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const video = heroVideoRef.current
+    if (video) {
+      video.play().catch(() => {})
+    }
+  }, [])
 
   const videoSections = [
     { src: videoSources[0], label: t("home.usecase1.label") },
@@ -90,7 +99,7 @@ export default function Home() {
       {/* Hero */}
       <section className="relative bg-black text-white h-[calc(100vh-112px)] overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <video autoPlay muted loop playsInline className="w-full h-full object-cover">
+          <video ref={heroVideoRef} autoPlay muted loop playsInline className="w-full h-full object-cover">
             <source
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Trilight_ThirdDraft-hGK1WK1Q47zhqL9VQvkziLEHL6KBPJ.mov"
               type="video/mp4"
@@ -101,7 +110,7 @@ export default function Home() {
             />
           </video>
         </div>
-        <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center">
+        <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center pointer-events-none">
           <div className="max-w-xs sm:max-w-md ml-0 md:ml-12 lg:ml-24">
             <h1 className="hero-animate text-3xl sm:text-5xl md:text-6xl mb-4 tracking-tight font-bold">
               {t("home.hero.title")}
@@ -115,7 +124,7 @@ export default function Home() {
           <div className="ml-0 md:ml-12 lg:ml-24">
             <Link
               href="/product/trilight"
-              className="hero-animate-delay-2 cta-glow button inline-block bg-white text-black py-4 px-10 sm:px-12 text-center text-sm hover:bg-gray-100 transition-colors"
+              className="hero-animate-delay-2 cta-glow button inline-block bg-white text-black py-4 px-10 sm:px-12 text-center text-sm hover:bg-gray-100 transition-colors pointer-events-auto"
             >
               {t("home.hero.cta")}
             </Link>

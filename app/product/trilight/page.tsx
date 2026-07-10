@@ -4,42 +4,25 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Play, X, Check, Zap, Clock, Shield, Users, Compass, ArrowRight, Mail } from "lucide-react"
-import { toast } from "sonner"
 import { useLanguage } from "@/contexts/language-context"
+import BuyBox from "@/components/buy-box"
+import { PRODUCTS, type Product } from "@/lib/products"
 
-const productMedia = [
-  { type: "image" as const, src: "/product image 1.png", alt: "TRILIGHT LED Safety Triangle Kit" },
-  { type: "image" as const, src: "/make_the_yellow_202603251220.png", alt: "TRILIGHT LED triangles with harness" },
-  { type: "image" as const, src: "/trilight-truck-mounted.png", alt: "TRILIGHT mounted on truck" },
-  {
-    type: "video" as const,
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/My%20Movie%208-4rsNliWiO3YR9dLylK4gudqBOxG1WK.mp4",
-    alt: "Roadside Emergency Deployment",
-    thumbnail: "/trilight-road-deployment.png",
-  },
-  {
-    type: "video" as const,
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/My%20Movie%206-McpD9yVvsuO2AytemVjcPDYxF242sK.mp4",
-    alt: "Wearable Safety System",
-    thumbnail: "/trilight-truck-mounted.png",
-  },
-  {
-    type: "video" as const,
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/My%20Movie%207-az1al5tB3lfNdheoiDtBujVLYkrmxW.mp4",
-    alt: "Loading Dock Positioning",
-    thumbnail: "/trilight-truck-highway-setup.png",
-  },
-]
+const defaultProduct = PRODUCTS[1] ?? PRODUCTS[0]
 
 export default function TrilightProductPage() {
+  // The gallery follows the kit chosen in the buy box.
+  const [selectedProductId, setSelectedProductId] = useState(defaultProduct.id)
   const [selectedMedia, setSelectedMedia] = useState(0)
   const [videoModalOpen, setVideoModalOpen] = useState(false)
   const [currentVideo, setCurrentVideo] = useState("")
-  const [email, setEmail] = useState("")
-  const [submitted, setSubmitted] = useState(false)
-  const [bottomEmail, setBottomEmail] = useState("")
-  const [bottomSubmitted, setBottomSubmitted] = useState(false)
   const { t } = useLanguage()
+
+  const product = PRODUCTS.find((p) => p.id === selectedProductId) ?? defaultProduct
+
+  // This kit's gallery: images followed by videos.
+  const gallery = product.media
+  const activeItem = gallery[selectedMedia] ?? gallery[0]
 
   const handleVideoPlay = (videoSrc: string) => {
     setCurrentVideo(videoSrc)
@@ -47,35 +30,17 @@ export default function TrilightProductPage() {
   }
 
   const handleMediaClick = (index: number) => {
-    const media = productMedia[index]
-    if (media.type === "video") {
-      handleVideoPlay(media.src)
+    const item = gallery[index]
+    if (item.type === "video") {
+      handleVideoPlay(item.src)
     } else {
       setSelectedMedia(index)
     }
   }
 
-  const submitWaitlist = async (
-    emailVal: string,
-    onSuccess: () => void
-  ) => {
-    try {
-      const data = new FormData()
-      data.append("email", emailVal)
-      data.append("_subject", "Waitlist Signup - TRILIGHT Product Page")
-      data.append("_template", "table")
-      const res = await fetch("https://formsubmit.co/ajax/Sales@trilightfleet.com", {
-        method: "POST",
-        headers: { Accept: "application/json" },
-        body: data,
-      })
-      if (res.ok) {
-        onSuccess()
-        toast.success("You're on the list!")
-      }
-    } catch {
-      toast.error("Something went wrong. Try again.")
-    }
+  const handleSelectProduct = (p: Product) => {
+    setSelectedProductId(p.id)
+    setSelectedMedia(0)
   }
 
   return (
@@ -116,28 +81,19 @@ export default function TrilightProductPage() {
 
         {/* Product Hero */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-12 mb-20">
-          {/* Media Gallery */}
+          {/* Media Gallery — per-bundle: images then videos */}
           <div className="space-y-4">
             <div className="bg-gray-100 rounded-lg overflow-hidden aspect-square relative">
-              {productMedia[selectedMedia]?.type === "image" ? (
-                <Image
-                  src={productMedia[selectedMedia]?.src || "/placeholder.svg"}
-                  alt={productMedia[selectedMedia]?.alt || "TRILIGHT"}
-                  fill
-                  className="object-cover"
-                />
+              {activeItem.type === "image" ? (
+                <Image src={activeItem.src} alt={activeItem.alt} fill className="object-cover" />
               ) : (
                 <div className="relative w-full h-full">
-                  <Image
-                    src={productMedia[selectedMedia]?.thumbnail || "/placeholder.svg"}
-                    alt={productMedia[selectedMedia]?.alt || "Video thumbnail"}
-                    fill
-                    className="object-cover"
-                  />
+                  <Image src={activeItem.thumbnail} alt={activeItem.alt} fill className="object-cover" />
                   <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
                     <button
-                      onClick={() => handleVideoPlay(productMedia[selectedMedia]?.src || "")}
+                      onClick={() => handleVideoPlay(activeItem.src)}
                       className="bg-white/90 rounded-full p-4 hover:bg-white transition-all hover:scale-110"
+                      aria-label="Play video"
                     >
                       <Play className="h-8 w-8 text-black ml-1" />
                     </button>
@@ -145,27 +101,28 @@ export default function TrilightProductPage() {
                 </div>
               )}
             </div>
-            <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-              {productMedia.map((media, index) => (
-                <div
+            <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
+              {gallery.map((item, index) => (
+                <button
                   key={index}
+                  type="button"
                   className={`bg-gray-100 rounded-lg overflow-hidden aspect-square relative cursor-pointer border-2 transition-all ${
                     selectedMedia === index ? "border-black" : "border-transparent hover:border-gray-300"
                   }`}
                   onClick={() => handleMediaClick(index)}
                 >
-                  <Image
-                    src={media.type === "image" ? media.src : media.thumbnail || "/placeholder.svg"}
-                    alt={media.alt}
-                    fill
-                    className="object-cover"
-                  />
-                  {media.type === "video" && (
-                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                      <Play className="h-4 w-4 text-white" />
-                    </div>
+                  {item.type === "image" && (
+                    <Image src={item.src} alt={item.alt} fill className="object-cover" />
                   )}
-                </div>
+                  {item.type === "video" && (
+                    <>
+                      <Image src={item.thumbnail} alt={item.alt} fill className="object-cover" />
+                      <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                        <Play className="h-4 w-4 text-white" />
+                      </div>
+                    </>
+                  )}
+                </button>
               ))}
             </div>
           </div>
@@ -176,67 +133,38 @@ export default function TrilightProductPage() {
               <div className="inline-block bg-[#E67E22]/10 text-[#E67E22] text-xs font-bold tracking-widest px-3 py-1.5 rounded-full mb-4">
                 {t("product2.badge")}
               </div>
-              <h1 className="text-2xl sm:text-3xl font-bold mb-3">{t("product2.title")}</h1>
+              <p className="text-xs font-bold tracking-widest text-gray-400 mb-2">{t("product2.title")}</p>
+              <h1 className="text-2xl sm:text-3xl font-bold mb-3">{product.name}</h1>
               <p className="text-gray-600 leading-relaxed">
-                {t("product2.desc")}
+                {product.blurb}
               </p>
             </div>
 
-            {/* Key Specs */}
-            <div className="border-t border-b py-6 mb-6 space-y-3">
-              {[
-                t("product2.spec.1"),
-                t("product2.spec.2"),
-                t("product2.spec.3"),
-                t("product2.spec.4"),
-                t("product2.spec.5"),
-                t("product2.spec.6"),
-              ].map((spec) => (
-                <div key={spec} className="flex items-start text-sm">
-                  <Check className="h-4 w-4 mr-2 text-[#E67E22] flex-shrink-0 mt-0.5" />
-                  <span>{spec}</span>
-                </div>
-              ))}
+            {/* What's included — changes per selected kit */}
+            <div className="border-t border-b py-6 mb-6">
+              <p className="text-xs font-bold tracking-widest text-gray-500 mb-4">WHAT&apos;S INCLUDED</p>
+              <div className="space-y-3">
+                {product.includes.map((line) => {
+                  const i = line.indexOf("×")
+                  const qty = i === -1 ? "" : line.slice(0, i).trim()
+                  const label = i === -1 ? line : line.slice(i + 1).trim()
+                  return (
+                    <div key={line} className="flex items-start text-sm">
+                      <Check className="h-4 w-4 mr-2 text-[#E67E22] flex-shrink-0 mt-0.5" strokeWidth={2.5} />
+                      <span className="text-gray-700">
+                        {qty && <span className="font-semibold text-gray-900">{qty} × </span>}
+                        {label}
+                      </span>
+                    </div>
+                  )
+                })}
+              </div>
+              <p className="mt-5 text-sm text-gray-500 leading-relaxed">{product.assurance}</p>
             </div>
 
-            {/* Waitlist CTA */}
-            <div className="mb-8">
-              {submitted ? (
-                <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
-                  <Check className="h-8 w-8 text-green-600 mx-auto mb-3" />
-                  <p className="font-bold text-green-900">{t("product2.waitlist.onList")}</p>
-                  <p className="text-sm text-green-700 mt-1">{t("product2.waitlist.onListDetail")}</p>
-                </div>
-              ) : (
-                <>
-                  <p className="text-sm text-gray-500 mb-3">
-                    {t("product2.waitlist.manufacturing")}
-                  </p>
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault()
-                      if (!email) return
-                      submitWaitlist(email, () => { setSubmitted(true); setBottomSubmitted(true) })
-                    }}
-                    className="flex flex-col sm:flex-row gap-2"
-                  >
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder={t("product2.waitlist.placeholder")}
-                      required
-                      className="flex-1 border border-gray-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#E67E22]"
-                    />
-                    <button
-                      type="submit"
-                      className="cta-glow bg-[#E67E22] text-white font-medium py-3 px-6 rounded-md hover:bg-[#D35400] transition-colors whitespace-nowrap"
-                    >
-                      {t("product2.waitlist.cta")}
-                    </button>
-                  </form>
-                </>
-              )}
+            {/* Buy box — pick a kit and check out (drives the gallery above) */}
+            <div id="buy">
+              <BuyBox selectedId={selectedProductId} onSelectProduct={handleSelectProduct} />
             </div>
 
             {/* Fleet CTA */}
@@ -530,35 +458,12 @@ export default function TrilightProductPage() {
             {t("product2.bottom.desc")}
           </p>
 
-          {(submitted || bottomSubmitted) ? (
-            <div className="bg-white/5 border border-white/10 rounded-lg px-6 py-5 inline-block">
-              <p className="text-white font-medium">{t("product2.bottom.success")}</p>
-            </div>
-          ) : (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault()
-                if (!bottomEmail) return
-                submitWaitlist(bottomEmail, () => { setBottomSubmitted(true); setSubmitted(true) })
-              }}
-              className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto"
-            >
-              <input
-                type="email"
-                value={bottomEmail}
-                onChange={(e) => setBottomEmail(e.target.value)}
-                placeholder={t("product2.bottom.placeholder")}
-                required
-                className="flex-1 px-4 py-4 rounded-md bg-white/5 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-[#E67E22]"
-              />
-              <button
-                type="submit"
-                className="cta-glow bg-[#E67E22] text-white py-4 px-8 rounded-md font-medium hover:bg-[#D35400] transition-colors whitespace-nowrap"
-              >
-                {t("product2.bottom.cta")}
-              </button>
-            </form>
-          )}
+          <a
+            href="#buy"
+            className="cta-glow inline-block bg-[#E67E22] text-white py-4 px-10 rounded-md font-medium hover:bg-[#D35400] transition-colors"
+          >
+            Get yours
+          </a>
 
           <div className="mt-10 flex flex-col sm:flex-row gap-6 justify-center items-center text-sm">
             <a

@@ -241,3 +241,67 @@ button,
   background-color: #E67E22;
   flex-shrink: 0;
 }
+
+/* ─── Hero Scroll Cue ─── */
+
+.scroll-cue-inner {
+  animation: scrollCueBob 1.8s ease-in-out infinite;
+}
+
+@keyframes scrollCueBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
+/* ─── Spec Stats ─── */
+
+.stat-value {
+  font-family: "Oswald", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+/* ─── Feature Item Hover ─── */
+
+.feature-item {
+  transition: transform 0.3s ease;
+}
+.feature-item:hover {
+  transform: translateY(-4px);
+}
+.feature-icon {
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+.feature-item:hover .feature-icon {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 10px rgba(230, 126, 34, 0.55));
+}
+
+/* ─── Accessible Focus States ─── */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #E67E22;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ─── Reduced Motion (respect user preference) ─── */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-animate,
+  .hero-animate-delay-1,
+  .hero-animate-delay-2,
+  .scroll-cue-inner,
+  .cta-glow:hover,
+  .feature-item:hover {
+    animation: none !important;
+    transform: none !important;
+  }
+  .scroll-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}

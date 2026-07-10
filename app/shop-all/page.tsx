@@ -1,38 +1,12 @@
 "use client"
 
-import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, Check } from "lucide-react"
-import { toast } from "sonner"
 import { useLanguage } from "@/contexts/language-context"
 
 export default function ShopAllPage() {
   const { t } = useLanguage()
-  const [email, setEmail] = useState("")
-  const [submitted, setSubmitted] = useState(false)
-
-  const handleWaitlist = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!email) return
-    try {
-      const data = new FormData()
-      data.append("email", email)
-      data.append("_subject", "Waitlist Signup - TRILIGHT Shop Page")
-      data.append("_template", "table")
-      const res = await fetch("https://formsubmit.co/ajax/Sales@trilightfleet.com", {
-        method: "POST",
-        headers: { Accept: "application/json" },
-        body: data,
-      })
-      if (res.ok) {
-        setSubmitted(true)
-        toast.success("You're on the list!")
-      }
-    } catch {
-      toast.error("Something went wrong. Try again.")
-    }
-  }
 
   return (
     <div>
@@ -100,39 +74,23 @@ export default function ShopAllPage() {
         </div>
       </section>
 
-      {/* Add-ons Preview */}
+      {/* Next Product Teaser */}
       <section className="bg-white py-16 sm:py-20">
         <div className="container mx-auto px-6">
-          <div className="max-w-5xl mx-auto scroll-reveal">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-10 tracking-tight text-gray-900 text-center">
-              {t("shop.accessoriesTitle")}
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              {[
-                { name: t("shop.harness.name"), desc: t("shop.harness.desc"), image: "/trilight-worker-industrial.png" },
-                { name: t("shop.case.name"), desc: t("shop.case.desc"), image: "/safety-equipment-case.png" },
-                { name: t("shop.pole.name"), desc: t("shop.pole.desc"), image: "/trilight-elevation-pole.png" },
-              ].map((item) => (
-                <div key={item.image} className="group relative rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow">
-                  <div className="aspect-square relative">
-                    <Image src={item.image} alt={item.name} fill className="object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-                    <div className="absolute top-3 right-3">
-                      <span className="bg-white/20 backdrop-blur-sm text-white text-xs font-medium px-2 py-1 rounded-full">
-                        {t("shop.badge")}
-                      </span>
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 p-5">
-                      <h3 className="text-lg font-bold text-white mb-1">{item.name}</h3>
-                      <p className="text-white/80 text-sm">{item.desc}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
+          <div className="max-w-3xl mx-auto scroll-reveal">
+            <div className="relative overflow-hidden rounded-2xl border border-gray-200 bg-gray-50 px-8 py-14 sm:py-16 text-center">
+              {/* subtle accent glow */}
+              <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 h-48 w-48 rounded-full bg-[#E67E22]/10 blur-3xl"></div>
+              <span className="relative inline-block bg-[#E67E22]/10 text-[#E67E22] text-xs font-bold tracking-widest px-4 py-1.5 rounded-full mb-6">
+                {t("shop.badge")}
+              </span>
+              <h2 className="relative text-2xl sm:text-3xl font-bold mb-4 tracking-tight text-gray-900">
+                {t("shop.next.title")}
+              </h2>
+              <p className="relative text-gray-600 leading-relaxed max-w-xl mx-auto">
+                {t("shop.next.desc")}
+              </p>
             </div>
-            <p className="text-center text-sm text-gray-500 mt-6">
-              {t("shop.addonsNote")}
-            </p>
           </div>
         </div>
       </section>
@@ -153,34 +111,18 @@ export default function ShopAllPage() {
         </div>
       </section>
 
-      {/* Waitlist */}
+      {/* Shop CTA */}
       <section className="bg-black py-16 scroll-reveal">
         <div className="container mx-auto px-6">
           <div className="max-w-xl mx-auto text-center">
             <h2 className="text-2xl font-bold text-white mb-4">{t("shop.waitlist.title")}</h2>
             <p className="text-gray-400 mb-8">{t("shop.waitlist.subtitle")}</p>
-            {submitted ? (
-              <div className="bg-white/5 border border-white/10 rounded-lg px-6 py-5 inline-block">
-                <p className="text-white font-medium">{t("shop.waitlist.success")}</p>
-              </div>
-            ) : (
-              <form onSubmit={handleWaitlist} className="flex flex-col sm:flex-row gap-3">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={t("shop.waitlist.placeholder")}
-                  required
-                  className="flex-1 px-4 py-4 rounded-md bg-white/5 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-[#E67E22]"
-                />
-                <button
-                  type="submit"
-                  className="cta-glow bg-[#E67E22] text-white py-4 px-8 rounded-md font-medium hover:bg-[#D35400] transition-colors whitespace-nowrap"
-                >
-                  {t("shop.waitlist.cta")}
-                </button>
-              </form>
-            )}
+            <Link
+              href="/product/trilight"
+              className="cta-glow inline-block bg-[#E67E22] text-white py-4 px-10 rounded-md font-medium hover:bg-[#D35400] transition-colors"
+            >
+              {t("shop.waitlist.cta")}
+            </Link>
           </div>
         </div>
       </section>

@@ -1,35 +1,66 @@
 import { type NextRequest, NextResponse } from "next/server"
 import Stripe from "stripe"
+import { getProduct } from "@/lib/products"
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2024-06-20",
-})
+// This runs on YOUR server, never in the customer's browser. That's why it can
+// safely hold the secret key and decide the real prices.
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
 
 export async function POST(request: NextRequest) {
-  try {
-    const { items } = await request.json()
+  // Fail loudly (in the server logs) if the key isn't set up yet, instead of a
+  // confusing crash. See .env.local.
+  if (!process.env.STRIPE_SECRET_KEY) {
+    return NextResponse.json(
+      { error: "Stripe is not configured. Add STRIPE_SECRET_KEY to .env.local." },
+      { status: 500 },
+    )
+  }
 
-    // Calculate total amount (Stripe expects amounts in cents)
-    const totalAmount = items.reduce((sum: number, item: any) => {
-      return sum + item.price * item.quantity * 100 // Convert to cents
-    }, 0)
+  try {
+    // The page only sends WHICH product and HOW MANY. Never the price.
+    const { items } = (await request.json()) as {
+      items: { id: string; quantity: number }[]
+    }
+
+    if (!Array.isArray(items) || items.length === 0) {
+      return NextResponse.json({ error: "Your cart is empty." }, { status: 400 })
+    }
+
+    // Build the line items by looking up each product in our own catalog, so
+    // the price always comes from the server — never from the request.
+    const line_items = items.map((item) => {
+      const product = getProduct(item.id)
+      if (!product) {
+        throw new Error(`Unknown product: ${item.id}`)
+      }
+      const quantity = Math.max(1, Math.min(20, Math.floor(item.quantity || 1)))
+
+      // If this product has a real Stripe Price ID, charge that. Otherwise build
+      // the price inline from our catalog. Both keep pricing server-controlled.
+      if (product.stripePriceId) {
+        return { price: product.stripePriceId, quantity }
+      }
+
+      return {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: product.name,
+            description: product.includes.join(" · "),
+          },
+          unit_amount: product.priceCents, // trusted, from our server
+        },
+        quantity,
+      }
+    })
 
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      line_items: [
-        {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: "TRILIGHT LED Safety Triangle",
-              description: "Professional-grade LED warning triangle for roadside safety",
-            },
-            unit_amount: 2000, // $20.00 in cents
-          },
-          quantity: items.reduce((sum: number, item: any) => sum + item.quantity, 0),
-        },
-      ],
       mode: "payment",
+      line_items,
+      // Physical product -> we need to know where to ship it.
+      shipping_address_collection: { allowed_countries: ["US", "CA"] },
+      // Let Stripe email the customer a receipt.
+      // (Requires receipts to be enabled in the Stripe dashboard.)
       success_url: `${request.nextUrl.origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${request.nextUrl.origin}/checkout/cancel`,
     })
@@ -37,6 +68,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ url: session.url })
   } catch (error) {
     console.error("Error creating checkout session:", error)
-    return NextResponse.json({ error: "Error creating checkout session" }, { status: 500 })
+    return NextResponse.json({ error: "Could not start checkout. Please try again." }, { status: 500 })
   }
 }

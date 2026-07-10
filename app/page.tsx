@@ -3,8 +3,7 @@
 import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { X, Play, Zap, Clock, BatteryCharging, Compass, Check, ArrowRight } from "lucide-react"
-import { toast } from "sonner"
+import { X, Play, Zap, Clock, BatteryCharging, Compass, Check, ArrowRight, ChevronDown } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
 
 const videoSources = [
@@ -13,15 +12,18 @@ const videoSources = [
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/My%20Movie%207-az1al5tB3lfNdheoiDtBujVLYkrmxW.mp4",
 ]
 
+const stats = [
+  { value: "1 MI+", key: "home.stats.s1" },
+  { value: "5-IN-1", key: "home.stats.s2" },
+  { value: "48 HR", key: "home.stats.s3" },
+]
+
 export default function Home() {
   const { t } = useLanguage()
   const [videoModalOpen, setVideoModalOpen] = useState(false)
   const [currentVideo, setCurrentVideo] = useState("")
   const [currentLabel, setCurrentLabel] = useState("")
-  const [waitlistEmail, setWaitlistEmail] = useState("")
-  const [waitlistSubmitted, setWaitlistSubmitted] = useState(false)
-  const [bottomEmail, setBottomEmail] = useState("")
-  const [bottomSubmitted, setBottomSubmitted] = useState(false)
+  const [showCue, setShowCue] = useState(false)
 
   const heroVideoRef = useRef<HTMLVideoElement>(null)
 
@@ -29,6 +31,28 @@ export default function Home() {
     const video = heroVideoRef.current
     if (video) {
       video.play().catch(() => {})
+    }
+  }, [])
+
+  // Scroll cue: reveal whenever the user lingers near the top without scrolling;
+  // hide on scroll, then re-arm so it can reappear each time they settle back up top.
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>
+    const scheduleCue = () => {
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        if (window.scrollY < 10) setShowCue(true)
+      }, 2500)
+    }
+    const onScroll = () => {
+      setShowCue(false)
+      scheduleCue()
+    }
+    scheduleCue()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => {
+      clearTimeout(timer)
+      window.removeEventListener("scroll", onScroll)
     }
   }, [])
 
@@ -42,26 +66,6 @@ export default function Home() {
     setCurrentVideo(src)
     setCurrentLabel(label)
     setVideoModalOpen(true)
-  }
-
-  const submitWaitlist = async (emailVal: string, onSuccess: () => void) => {
-    try {
-      const data = new FormData()
-      data.append("email", emailVal)
-      data.append("_subject", "Waitlist Signup - TRILIGHT")
-      data.append("_template", "table")
-      const res = await fetch("https://formsubmit.co/ajax/Sales@trilightfleet.com", {
-        method: "POST",
-        headers: { Accept: "application/json" },
-        body: data,
-      })
-      if (res.ok) {
-        onSuccess()
-        toast.success("You're on the waitlist!")
-      }
-    } catch {
-      toast.error("Something went wrong. Try again.")
-    }
   }
 
   return (
@@ -110,6 +114,9 @@ export default function Home() {
             />
           </video>
         </div>
+        {/* Legibility scrim — keeps text crisp over any video frame */}
+        <div className="absolute inset-0 z-[1] bg-gradient-to-r from-black/85 via-black/45 to-transparent"></div>
+        <div className="absolute inset-0 z-[1] bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
         <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center pointer-events-none">
           <div className="max-w-xs sm:max-w-md ml-0 md:ml-12 lg:ml-24">
             <h1 className="hero-animate text-3xl sm:text-5xl md:text-6xl mb-4 tracking-tight font-bold">
@@ -121,37 +128,50 @@ export default function Home() {
               {t("home.hero.subtitle")}
             </p>
           </div>
-          <div className="ml-0 md:ml-12 lg:ml-24">
+          <div className="hero-animate-delay-2 ml-0 md:ml-12 lg:ml-24 flex flex-col sm:flex-row gap-3 sm:gap-4">
             <Link
               href="/product/trilight"
-              className="hero-animate-delay-2 cta-glow button inline-block bg-white text-black py-4 px-10 sm:px-12 text-center text-sm hover:bg-gray-100 transition-colors pointer-events-auto"
+              className="cta-glow button inline-block bg-white text-black py-4 px-10 sm:px-12 text-center text-sm hover:bg-gray-100 transition-colors pointer-events-auto"
             >
               {t("home.hero.cta")}
             </Link>
+            <Link
+              href="/product/trilight"
+              className="button inline-flex items-center justify-center border border-white/40 text-white py-4 px-10 sm:px-12 text-center text-sm hover:bg-white/10 hover:border-white transition-colors pointer-events-auto backdrop-blur-sm"
+            >
+              {t("home.hero.cta2")}
+            </Link>
           </div>
         </div>
+        {/* Scroll cue — appears after a pause, dismisses on scroll */}
+        <a
+          href="#discover"
+          aria-label="Scroll to explore"
+          className={`absolute bottom-6 left-1/2 -translate-x-1/2 z-10 hidden sm:flex flex-col items-center gap-1.5 text-white/70 hover:text-white transition-opacity duration-700 ${
+            showCue ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          }`}
+        >
+          <span className="scroll-cue-inner flex flex-col items-center gap-1.5">
+            <span className="text-[10px] tracking-[0.3em]">SCROLL</span>
+            <ChevronDown className="h-5 w-5" />
+          </span>
+        </a>
       </section>
 
       {/* Features Bar */}
-      <section className="bg-black text-white py-10">
+      <section id="discover" className="bg-black text-white py-10 border-y border-white/10">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div className="flex flex-col items-center py-4">
-              <div className="mb-4">
-                <Zap className="h-9 w-9 text-[#E67E22]" />
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-0 text-center md:divide-x md:divide-white/10">
+            <div className="feature-item flex flex-col items-center py-4 md:px-8">
+              <Zap className="feature-icon h-9 w-9 text-[#E67E22] mb-4" />
               <h3 className="text-sm tracking-wide">{t("home.features.materials")}</h3>
             </div>
-            <div className="flex flex-col items-center py-4">
-              <div className="mb-4">
-                <Clock className="h-9 w-9 text-[#E67E22]" />
-              </div>
+            <div className="feature-item flex flex-col items-center py-4 md:px-8">
+              <Clock className="feature-icon h-9 w-9 text-[#E67E22] mb-4" />
               <h3 className="text-sm tracking-wide">{t("home.features.warranty")}</h3>
             </div>
-            <div className="flex flex-col items-center py-4">
-              <div className="mb-4">
-                <BatteryCharging className="h-9 w-9 text-[#E67E22]" />
-              </div>
+            <div className="feature-item flex flex-col items-center py-4 md:px-8">
+              <BatteryCharging className="feature-icon h-9 w-9 text-[#E67E22] mb-4" />
               <h3 className="text-sm tracking-wide">{t("home.features.shipping")}</h3>
             </div>
           </div>
@@ -178,6 +198,14 @@ export default function Home() {
               <p className="text-lg text-gray-600 leading-relaxed">
                 {t("home.revolution.detail")}
               </p>
+              <div className="grid grid-cols-3 gap-4 sm:gap-6 mt-10 pt-8 border-t border-gray-200">
+                {stats.map((s) => (
+                  <div key={s.key}>
+                    <div className="stat-value text-3xl sm:text-4xl text-[#E67E22] leading-none">{s.value}</div>
+                    <div className="mt-2 text-[11px] sm:text-xs uppercase tracking-widest text-gray-500">{t(s.key)}</div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -375,7 +403,7 @@ export default function Home() {
       <section className="relative overflow-hidden py-16 sm:py-20 scroll-reveal">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/fleet-partnership-sunset.png"
+            src="/fleet-partnership-sunset.jpg"
             alt="Fleet managers discussing safety solutions"
             fill
             className="object-cover"
@@ -423,7 +451,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Final CTA — Waitlist */}
+      {/* Final CTA — Shop */}
       <section className="bg-gray-900 py-20 sm:py-24 scroll-reveal">
         <div className="container mx-auto px-6">
           <div className="max-w-2xl mx-auto text-center">
@@ -432,36 +460,12 @@ export default function Home() {
               {t("home.waitlist.subtitle")}
             </p>
 
-            {(waitlistSubmitted || bottomSubmitted) ? (
-              <div className="bg-white/5 border border-white/10 rounded-lg px-6 py-5 inline-block">
-                <p className="text-white font-medium">{t("home.waitlist.success")}</p>
-              </div>
-            ) : (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault()
-                  const val = bottomEmail || waitlistEmail
-                  if (!val) return
-                  submitWaitlist(val, () => { setBottomSubmitted(true); setWaitlistSubmitted(true) })
-                }}
-                className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto"
-              >
-                <input
-                  type="email"
-                  value={bottomEmail}
-                  onChange={(e) => setBottomEmail(e.target.value)}
-                  placeholder={t("home.waitlist.placeholder")}
-                  required
-                  className="flex-1 px-4 py-4 rounded-md bg-white/5 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-[#E67E22]"
-                />
-                <button
-                  type="submit"
-                  className="cta-glow button bg-[#E67E22] text-white py-4 px-8 rounded-md font-medium hover:bg-[#D35400] transition-colors whitespace-nowrap"
-                >
-                  {t("home.waitlist.cta")}
-                </button>
-              </form>
-            )}
+            <Link
+              href="/product/trilight"
+              className="cta-glow button inline-block bg-[#E67E22] text-white py-4 px-10 rounded-md font-medium hover:bg-[#D35400] transition-colors"
+            >
+              {t("home.waitlist.cta")}
+            </Link>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center text-sm text-gray-500">
               <Link href="/product/trilight" className="hover:text-white transition-colors">

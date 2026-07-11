@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { CheckCircle, Phone, Mail, AlertTriangle, Clock, Eye, ArrowRight } from "lucide-react"
 import { toast } from "sonner"
 import { useLanguage } from "@/contexts/language-context"
@@ -232,35 +233,35 @@ export default function EnterprisePage() {
               </p>
             </div>
 
-            <div className="space-y-16 sm:space-y-24">
-              {USE_CASES.map((uc, i) => (
-                <div key={uc.key} className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center scroll-reveal">
-                  <div className={`relative ${i % 2 === 1 ? "lg:order-2" : ""}`}>
-                    <div className="glow-bloom" aria-hidden="true"></div>
-                    <div className="relative aspect-[4/3] overflow-hidden border border-white/10 bg-gray-950">
-                      {uc.media.type === "video" ? (
-                        <video autoPlay muted loop playsInline poster="/trilight-chevron-poster.jpg" className="w-full h-full object-cover">
-                          <source src={uc.media.src} type="video/mp4" />
-                        </video>
-                      ) : (
-                        <Image
-                          src={uc.media.src}
-                          alt={t(`ent.usecase.${uc.key}.title`)}
-                          fill
-                          className="object-cover"
-                        />
-                      )}
-                    </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-4 gap-y-8 scroll-reveal">
+              {USE_CASES.map((uc) => (
+                <div key={uc.key}>
+                  <div className="relative aspect-square overflow-hidden border border-white/10 bg-gray-950 mb-4">
+                    {uc.media.type === "video" ? (
+                      <video autoPlay muted loop playsInline poster="/trilight-chevron-poster.jpg" className="w-full h-full object-cover">
+                        <source src={uc.media.src} type="video/mp4" />
+                      </video>
+                    ) : (
+                      <Image
+                        src={uc.media.src}
+                        alt={t(`ent.usecase.${uc.key}.title`)}
+                        fill
+                        className="object-cover"
+                      />
+                    )}
                   </div>
-                  <div className={i % 2 === 1 ? "lg:order-1" : ""}>
-                    <div className="stat-value text-sm text-[#E67E22] tracking-[0.35em] mb-4">
-                      {String(i + 1).padStart(2, "0")}
-                    </div>
-                    <h3 className="text-2xl sm:text-3xl font-bold mb-4">{t(`ent.usecase.${uc.key}.title`)}</h3>
-                    <p className="text-gray-400 leading-relaxed">{t(`ent.usecase.${uc.key}.desc`)}</p>
-                  </div>
+                  <h3 className="text-base font-bold mb-1.5">{t(`ent.usecase.${uc.key}.title`)}</h3>
+                  <p className="text-sm text-gray-400 leading-relaxed">{t(`ent.usecase.${uc.key}.short`)}</p>
                 </div>
               ))}
+            </div>
+            <div className="text-center mt-12 scroll-reveal">
+              <Link
+                href="/#discover"
+                className="inline-flex items-center gap-2 text-[#E67E22] font-medium text-sm hover:text-[#D35400] transition-colors"
+              >
+                {t("ent.howItWorks.link")} <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
           </div>
         </div>

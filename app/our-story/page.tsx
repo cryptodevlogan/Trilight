@@ -13,7 +13,7 @@ export default function OurStoryPage() {
       <div className="h-[96px]"></div>
 
       {/* Hero — lead with the tension */}
-      <section className="relative bg-black text-white py-24 sm:py-32 overflow-hidden">
+      <section className="relative bg-black text-white pt-24 pb-16 sm:pt-32 sm:pb-20 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
             src="/he_shouldn't_be_202603251254.png"
@@ -30,8 +30,9 @@ export default function OurStoryPage() {
               <AlertTriangle className="h-4 w-4 text-[#E67E22]" />
               <span className="text-xs font-medium text-[#E67E22] tracking-[0.2em]">{t("story2.badge")}</span>
             </div>
-            <h1 className="hero-animate-delay-1 text-4xl sm:text-5xl lg:text-6xl mb-8 tracking-tight font-bold leading-[1.1]">
-              {t("story2.hero.title")}
+            <h1 className="hero-animate-delay-1 text-4xl sm:text-5xl lg:text-6xl mb-8 tracking-tight leading-[1.1]">
+              <span className="block font-light text-gray-300">{t("story2.hero.title1")}</span>
+              <span className="block font-bold text-white mt-2">{t("story2.hero.title2")}</span>
             </h1>
             <p className="hero-animate-delay-2 text-lg sm:text-xl leading-relaxed text-gray-400 max-w-2xl">
               {t("story2.hero.subtitle")}
@@ -40,21 +41,33 @@ export default function OurStoryPage() {
         </div>
       </section>
 
-      {/* The Problem — what Willy saw */}
-      <section className="bg-white py-20 sm:py-24">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="scroll-reveal">
-            <p className="text-2xl sm:text-3xl font-bold leading-snug text-gray-900 mb-8">
+      {/* The Problem — a voiceover, not a second hero. Sentence-case light type against the
+          hero's bold uppercase; "It's dark." dimmed so the type does what the line says. */}
+      <section className="bg-black text-white pt-8 sm:pt-10 pb-20 sm:pb-24">
+        <div className="container mx-auto px-6">
+          <div className="max-w-3xl scroll-reveal">
+            <p className="stat-value text-sm tracking-[0.3em] text-[#E67E22] uppercase mb-10">
               {t("story2.problem.intro")}
             </p>
-            <div className="space-y-6 text-lg leading-relaxed text-gray-600">
+            <div className="space-y-3 mb-10">
+              <p className="text-2xl sm:text-4xl font-light leading-snug text-white">
+                {t("story2.problem.line1")}
+              </p>
+              <p className="text-2xl sm:text-4xl font-light leading-snug text-gray-600">
+                {t("story2.problem.line2")}
+              </p>
+              <p className="text-2xl sm:text-4xl font-light leading-snug text-white">
+                {t("story2.problem.line3")}
+              </p>
+            </div>
+            <div className="space-y-6 text-lg leading-relaxed text-gray-400">
               <p>
                 {t("story2.problem.p1")}
               </p>
               <p>
                 {t("story2.problem.p2")}
               </p>
-              <p className="text-gray-900 font-medium text-xl">
+              <p className="text-white font-medium text-xl">
                 {t("story2.problem.p3")}
               </p>
             </div>
@@ -70,20 +83,34 @@ export default function OurStoryPage() {
               <h2 className="text-3xl sm:text-4xl font-bold mb-8 tracking-tight text-gray-900">
                 {t("story2.willy.title")}
               </h2>
-              <div className="space-y-6 text-lg leading-relaxed text-gray-600">
-                <p>
-                  {t("story2.willy.p1")}
-                </p>
-                <p>
-                  {t("story2.willy.p2")}
-                </p>
-                <p>
-                  {t("story2.willy.p3")}
-                </p>
-                <p className="text-gray-900 font-medium">
-                  {t("story2.willy.p4")}
-                </p>
-              </div>
+              {/* Willy's road, told as mile markers — the one true chronology on the site */}
+              <ol className="border-l-2 border-gray-300 ml-1.5">
+                {[
+                  { mile: t("story2.willy.mile1"), text: t("story2.willy.p1") },
+                  { mile: t("story2.willy.mile2"), text: t("story2.willy.p2") },
+                  { mile: t("story2.willy.mile3"), text: t("story2.willy.p3") },
+                  { mile: t("story2.willy.mile4"), text: t("story2.willy.p4"), emphasis: true },
+                ].map((beat, i, arr) => (
+                  <li key={beat.mile} className={`relative pl-8 ${i < arr.length - 1 ? "pb-10" : ""}`}>
+                    <span
+                      className="absolute -left-[7px] top-1.5 w-3 h-3 bg-[#E67E22]"
+                      aria-hidden="true"
+                    ></span>
+                    <p className="mb-3">
+                      <span className="stat-value inline-block bg-gray-900 text-white text-xs tracking-[0.18em] px-3 py-1.5">
+                        {beat.mile}
+                      </span>
+                    </p>
+                    <p
+                      className={`text-lg leading-relaxed ${
+                        beat.emphasis ? "text-gray-900 font-medium" : "text-gray-600"
+                      }`}
+                    >
+                      {beat.text}
+                    </p>
+                  </li>
+                ))}
+              </ol>
             </div>
             <div className="lg:col-span-2">
               <div className="relative">
@@ -177,39 +204,34 @@ export default function OurStoryPage() {
       </section>
 
       {/* The values — short, no repetition */}
+      {/* Values — one point, two supports. "Save lives" is the whole point; the layout says so. */}
       <section className="bg-white py-20 sm:py-24">
         <div className="max-w-4xl mx-auto px-6 scroll-reveal">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-12 tracking-tight text-gray-900 text-center">
+          <p className="stat-value text-sm tracking-[0.3em] text-[#E67E22] uppercase mb-6">
             {t("story2.values.title")}
+          </p>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl tracking-tight text-gray-900 mb-6">
+            {t("story2.values.1.title")}
+            <span className="text-[#E67E22]">.</span>
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <div className="text-center">
-              <div className="text-5xl font-bold text-[#E67E22] mb-4">01</div>
-              <h3 className="text-lg font-bold mb-3 text-gray-900">{t("story2.values.1.title")}</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                {t("story2.values.1.text")}
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl font-bold text-[#E67E22] mb-4">02</div>
-              <h3 className="text-lg font-bold mb-3 text-gray-900">{t("story2.values.2.title")}</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                {t("story2.values.2.text")}
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl font-bold text-[#E67E22] mb-4">03</div>
-              <h3 className="text-lg font-bold mb-3 text-gray-900">{t("story2.values.3.title")}</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                {t("story2.values.3.text")}
-              </p>
-            </div>
+          <p className="text-xl sm:text-2xl text-gray-600 leading-relaxed max-w-2xl mb-14">
+            {t("story2.values.1.text")}
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 pt-10 border-t border-gray-200">
+            {(["2", "3"] as const).map((n) => (
+              <div key={n}>
+                <h3 className="text-lg font-bold mb-3 text-gray-900">{t(`story2.values.${n}.title`)}</h3>
+                <p className="text-gray-600 text-base leading-relaxed">
+                  {t(`story2.values.${n}.text`)}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="bg-gray-900 text-white py-20 scroll-reveal">
+      <section className="bg-black text-white py-20 scroll-reveal">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold mb-6 tracking-tight">
             {t("story2.cta.title")}

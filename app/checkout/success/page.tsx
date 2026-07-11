@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { CheckCircle } from "lucide-react"
 import Stripe from "stripe"
+import ClearCartOnSuccess from "@/components/clear-cart-on-success"
 
 // This is a server component, so it can safely read the order details from
 // Stripe using the secret key and show the customer exactly what they bought.
@@ -30,6 +31,7 @@ export default async function CheckoutSuccess({
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-16">
+      <ClearCartOnSuccess />
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
         <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-6" />
         <h1 className="text-2xl font-bold text-gray-900 mb-3">Thank you for your order!</h1>

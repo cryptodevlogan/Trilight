@@ -7,7 +7,7 @@
 
 /** One slide in the product gallery. */
 export type GalleryItem =
-  | { type: "image"; src: string; alt: string }
+  | { type: "image"; src: string; alt: string; objectPosition?: string }
   | { type: "video"; src: string; thumbnail: string; alt: string }
 
 export interface Product {
@@ -62,11 +62,13 @@ export const PRODUCTS: Product[] = [
     assurance:
       "Slip it on and step out of the cab lit up from front and back, so drivers spot you long before they reach you.",
     priceCents: 6500, // $65
-    image: "/trilight-worker-industrial.png",
+    image: "/trilight-personal-main.png",
     media: [
+      { type: "image", src: "/trilight-personal-main.png", alt: "TRILIGHT wearable LED harness laid out flat" },
       { type: "image", src: "/trilight-wearable.jpg", alt: "TRILIGHT wearable LED triangle unfolded from the harness" },
       { type: "image", src: "/trilight-wearable-driver.jpg", alt: "Driver wearing the TRILIGHT LED safety harness" },
-      { type: "video", src: VID.wearable, thumbnail: "/trilight-wearable-walking.jpg", alt: "TRILIGHT wearable safety system in use" },
+      { type: "video", src: "/wearable-trilight.mp4", thumbnail: "/trilight-wearable-inspection.jpg", alt: "Wearing TRILIGHT during a night engine inspection" },
+      { type: "video", src: "/trilight-personal-inspection.mp4", thumbnail: "/trilight-tire-inspection.jpg", alt: "Wearing TRILIGHT during a roadside tire inspection" },
     ],
   },
   {
@@ -86,8 +88,9 @@ export const PRODUCTS: Product[] = [
     media: [
       { type: "image", src: "/trilight-roadside-kit.png", alt: "TRILIGHT Vehicle Kit magnetic LED triangles" },
       { type: "image", src: "/trilight-truck-mounted.png", alt: "TRILIGHT magnetic triangle mounted on a truck" },
-      { type: "video", src: VID.roadside, thumbnail: "/trilight-road-deployment.png", alt: "Roadside emergency deployment" },
-      { type: "video", src: VID.dock, thumbnail: "/trilight-truck-highway-setup.png", alt: "Loading dock positioning" },
+      { type: "image", src: "/trilight-vehicle-detail.png", alt: "Fitting the TRILIGHT LED triangle over a traditional roadside safety triangle" },
+      { type: "image", src: "/trilight-night.jpeg", alt: "TRILIGHT LED triangles glowing behind a truck on the highway at night", objectPosition: "68% 50%" },
+      { type: "video", src: VID.roadside, thumbnail: "/trilight-roadside-poster.jpg", alt: "Roadside emergency deployment" },
     ],
   },
   {
@@ -106,10 +109,10 @@ export const PRODUCTS: Product[] = [
     priceCents: 15000, // $150
     image: "/product image 1.png",
     media: [
-      { type: "image", src: "/product image 1.png", alt: "TRILIGHT Complete Kit — all pieces" },
       { type: "image", src: "/make_the_yellow_202603251220.png", alt: "TRILIGHT LED triangles with wearable harness" },
-      { type: "video", src: VID.roadside, thumbnail: "/trilight-road-deployment.png", alt: "Roadside emergency deployment" },
-      { type: "video", src: VID.wearable, thumbnail: "/trilight-worker-industrial.png", alt: "TRILIGHT wearable safety system" },
+      { type: "image", src: "/trilight-complete-package.png", alt: "TRILIGHT Complete Kit laid out: wearable harness, large triangle, and three stackable triangles" },
+      { type: "video", src: VID.roadside, thumbnail: "/trilight-roadside-poster.jpg", alt: "Roadside emergency deployment" },
+      { type: "video", src: VID.wearable, thumbnail: "/trilight-wearable-poster.jpg", alt: "TRILIGHT wearable safety system" },
     ],
   },
 ]

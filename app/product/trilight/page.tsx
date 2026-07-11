@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Play, X, Check, Zap, Clock, Shield, Users, Compass, ArrowRight, Mail } from "lucide-react"
@@ -42,6 +42,15 @@ export default function TrilightProductPage() {
     setSelectedProductId(p.id)
     setSelectedMedia(0)
   }
+
+  // Preselect a kit when arriving via a link like /product/trilight?kit=wearable
+  useEffect(() => {
+    const kit = new URLSearchParams(window.location.search).get("kit")
+    if (kit && PRODUCTS.some((p) => p.id === kit)) {
+      setSelectedProductId(kit)
+      setSelectedMedia(0)
+    }
+  }, [])
 
   return (
     <div>
@@ -85,7 +94,13 @@ export default function TrilightProductPage() {
           <div className="space-y-4">
             <div className="bg-gray-100 rounded-lg overflow-hidden aspect-square relative">
               {activeItem.type === "image" ? (
-                <Image src={activeItem.src} alt={activeItem.alt} fill className="object-cover" />
+                <Image
+                  src={activeItem.src}
+                  alt={activeItem.alt}
+                  fill
+                  className="object-cover"
+                  style={activeItem.objectPosition ? { objectPosition: activeItem.objectPosition } : undefined}
+                />
               ) : (
                 <div className="relative w-full h-full">
                   <Image src={activeItem.thumbnail} alt={activeItem.alt} fill className="object-cover" />
@@ -112,7 +127,13 @@ export default function TrilightProductPage() {
                   onClick={() => handleMediaClick(index)}
                 >
                   {item.type === "image" && (
-                    <Image src={item.src} alt={item.alt} fill className="object-cover" />
+                    <Image
+                      src={item.src}
+                      alt={item.alt}
+                      fill
+                      className="object-cover"
+                      style={item.objectPosition ? { objectPosition: item.objectPosition } : undefined}
+                    />
                   )}
                   {item.type === "video" && (
                     <>

@@ -18,8 +18,7 @@ export default function Cart() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           items: items.map((item) => ({
-            name: item.name,
-            price: item.price,
+            id: item.id,
             quantity: item.quantity,
           })),
         }),
@@ -27,7 +26,7 @@ export default function Cart() {
 
       if (!response.ok) throw new Error("Failed to create checkout session")
       const { url } = await response.json()
-      window.open(url, "_blank")
+      window.location.href = url
     } catch (error) {
       console.error("Error during checkout:", error)
       alert("There was an error processing your request. Please try again.")

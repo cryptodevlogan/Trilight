@@ -136,7 +136,7 @@ export default function Home() {
               {t("home.hero.cta")}
             </Link>
             <Link
-              href="/product/trilight"
+              href="/product/trilight?kit=wearable"
               className="button inline-flex items-center justify-center border border-white/40 text-white py-4 px-10 sm:px-12 text-center text-sm hover:bg-white/10 hover:border-white transition-colors pointer-events-auto backdrop-blur-sm"
             >
               {t("home.hero.cta2")}
@@ -403,7 +403,7 @@ export default function Home() {
       <section className="relative overflow-hidden py-16 sm:py-20 scroll-reveal">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/fleet-partnership-sunset.jpg"
+            src="/fleet-safety-scale.png"
             alt="Fleet managers discussing safety solutions"
             fill
             className="object-cover"

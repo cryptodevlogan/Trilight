@@ -5,6 +5,7 @@ import Image from "next/image"
 import { Check, Loader2 } from "lucide-react"
 import { toast } from "sonner"
 import { PRODUCTS, formatPrice, type Product } from "@/lib/products"
+import { useCart } from "@/contexts/cart-context"
 
 export default function BuyBox({
   selectedId: controlledId,
@@ -18,8 +19,19 @@ export default function BuyBox({
   const [internalId, setInternalId] = useState(PRODUCTS[1]?.id ?? PRODUCTS[0].id)
   const selectedId = controlledId ?? internalId
   const [loading, setLoading] = useState(false)
+  const { addItem } = useCart()
 
   const selected = PRODUCTS.find((p) => p.id === selectedId) ?? PRODUCTS[0]
+
+  const handleAddToCart = () => {
+    addItem({
+      id: selected.id,
+      name: selected.name,
+      price: selected.priceCents / 100,
+      image: selected.image,
+    })
+    toast.success(`${selected.name} added to cart`)
+  }
 
   const handleBuy = async () => {
     setLoading(true)
@@ -108,20 +120,29 @@ export default function BuyBox({
         })}
       </div>
 
-      <button
-        type="button"
-        onClick={handleBuy}
-        disabled={loading}
-        className="cta-glow mt-4 flex w-full items-center justify-center gap-2 rounded-md bg-[#E67E22] px-6 py-4 font-medium text-white transition-colors hover:bg-[#D35400] disabled:opacity-70"
-      >
-        {loading ? (
-          <>
-            <Loader2 className="h-4 w-4 animate-spin" /> Redirecting to checkout…
-          </>
-        ) : (
-          <>Buy {selected.name} — {formatPrice(selected.priceCents)}</>
-        )}
-      </button>
+      <div className="mt-4 flex flex-col gap-3">
+        <button
+          type="button"
+          onClick={handleAddToCart}
+          className="w-full rounded-md border-2 border-[#E67E22] px-6 py-4 font-medium text-[#E67E22] transition-colors hover:bg-[#E67E22]/5"
+        >
+          Add to Cart — {formatPrice(selected.priceCents)}
+        </button>
+        <button
+          type="button"
+          onClick={handleBuy}
+          disabled={loading}
+          className="cta-glow flex w-full items-center justify-center gap-2 rounded-md bg-[#E67E22] px-6 py-4 font-medium text-white transition-colors hover:bg-[#D35400] disabled:opacity-70"
+        >
+          {loading ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" /> Redirecting to checkout…
+            </>
+          ) : (
+            <>Buy it now</>
+          )}
+        </button>
+      </div>
 
       <p className="mt-3 text-center text-xs text-gray-500">
         Secure checkout powered by Stripe

@@ -3,10 +3,11 @@
 import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Search, User, ChevronDown } from "lucide-react"
+import { Search, ChevronDown } from "lucide-react"
 import AnnouncementBar from "@/components/announcement-bar"
 import MobileMenu from "@/components/mobile-menu"
 import SupportDialog from "@/components/support-dialog"
+import Cart from "@/components/cart"
 import { useLanguage } from "@/contexts/language-context"
 
 export default function Header() {
@@ -105,9 +106,7 @@ export default function Header() {
             )}
           </div>
 
-          <button>
-            <User className="h-5 w-5" />
-          </button>
+          <Cart />
         </div>
       </nav>
     </div>

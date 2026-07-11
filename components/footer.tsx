@@ -39,7 +39,7 @@ export default function Footer() {
             <h3 className="text-lg mb-4 font-bold">{t("footer.support")}</h3>
             <ul className="space-y-2">
               <li>
-                <a href="mailto:willy@trilight.store" className="text-gray-400 hover:text-white transition-colors">
+                <a href="mailto:gv@trilightfleet.com" className="text-gray-400 hover:text-white transition-colors">
                   {t("footer.contactUs")}
                 </a>
               </li>

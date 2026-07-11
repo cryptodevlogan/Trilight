@@ -30,7 +30,7 @@ export default function RootLayout({
               position="bottom-right"
               toastOptions={{
                 style: {
-                  fontFamily: "'Oswald', sans-serif",
+                  fontFamily: "'Barlow Condensed', sans-serif",
                   textTransform: "uppercase" as const,
                   letterSpacing: "0.03em",
                 },

@@ -58,7 +58,7 @@ export const PRODUCTS: Product[] = [
     tagline: "One wearable LED safety triangle.",
     includes: ["1 × Wearable LED triangle"],
     blurb:
-      "Wear your safety. A single high-visibility LED triangle you strap on before you step out of the cab, so drivers see you from front and back long before they reach you. Rechargeable, weatherproof, and ready in seconds.",
+      "Wear your safety. A single high-visibility LED triangle you strap on before you step out of the cab, so drivers see you from front and back long before they reach you. Rechargeable, built for roadside conditions, and ready in seconds.",
     assurance:
       "Slip it on and step out of the cab lit up from front and back, so drivers spot you long before they reach you.",
     priceCents: 6500, // $65
@@ -80,14 +80,13 @@ export const PRODUCTS: Product[] = [
       "3 × Stackable magnetic triangles (fit on top of traditional safety triangles)",
     ],
     blurb:
-      "Upgrade your rig's roadside presence. Turn your existing safety triangles into bright LED beacons and add a large magnetic triangle that mounts right to the truck. Seen from over a mile away, deployed in seconds, and it even folds into a directional arrow to guide traffic around you.",
+      "Upgrade your rig's roadside presence. Turn your existing safety triangles into bright LED beacons and add a large magnetic triangle that mounts right to the truck. Seen from over a mile away at night, deployed in seconds, and it even folds into a directional arrow to guide traffic around you.",
     assurance:
       "With this kit you can rest assured your vehicle stays totally visible to everyone on the road, day or night.",
     priceCents: 10000, // $100
     image: "/trilight-roadside-kit.png",
     media: [
       { type: "image", src: "/trilight-roadside-kit.png", alt: "TRILIGHT Vehicle Kit magnetic LED triangles" },
-      { type: "image", src: "/trilight-truck-mounted.png", alt: "TRILIGHT magnetic triangle mounted on a truck" },
       { type: "image", src: "/trilight-vehicle-detail.png", alt: "Fitting the TRILIGHT LED triangle over a traditional roadside safety triangle" },
       { type: "image", src: "/trilight-night.jpeg", alt: "TRILIGHT LED triangles glowing behind a truck on the highway at night", objectPosition: "68% 50%" },
       { type: "video", src: VID.roadside, thumbnail: "/trilight-roadside-poster.jpg", alt: "Roadside emergency deployment" },

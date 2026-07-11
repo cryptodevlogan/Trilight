@@ -57,8 +57,11 @@ export default function BuyBox({
     }
   }
 
+  // The middle option (Vehicle Kit) is the default and the recommendation.
+  const featuredId = PRODUCTS[1]?.id
+
   return (
-    <div className="mb-8">
+    <div>
       <p className="text-sm font-semibold tracking-wide text-gray-900 mb-3">Choose your kit</p>
 
       <div className="space-y-3">
@@ -72,43 +75,42 @@ export default function BuyBox({
                 setInternalId(product.id)
                 onSelectProduct?.(product)
               }}
-              className={`w-full text-left rounded-lg border-2 p-4 transition-all ${
+              className={`buy-option w-full text-left rounded-lg border-2 p-4 transition-all ${
                 isSelected
-                  ? "border-[#E67E22] bg-[#E67E22]/5"
+                  ? "border-[#E67E22] bg-[#E67E22]/10 ring-1 ring-[#E67E22]"
                   : "border-gray-200 hover:border-gray-300"
               }`}
             >
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex items-start gap-3">
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
                   {/* Radio indicator */}
                   <span
-                    className={`mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 ${
+                    className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 ${
                       isSelected ? "border-[#E67E22] bg-[#E67E22]" : "border-gray-300"
                     }`}
                   >
                     {isSelected && <Check className="h-3 w-3 text-white" />}
                   </span>
                   {/* Product thumbnail */}
-                  <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
+                  <div className="relative h-14 w-14 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
                     <Image
                       src={product.image}
                       alt={product.name}
                       fill
-                      sizes="64px"
+                      sizes="56px"
                       className="object-cover"
                     />
                   </div>
                   <div>
-                    <p className="font-bold text-gray-900">{product.name}</p>
-                    <p className="text-xs text-gray-500 mb-2">{product.tagline}</p>
-                    <ul className="space-y-1">
-                      {product.includes.map((line) => (
-                        <li key={line} className="flex items-start text-xs text-gray-600">
-                          <span className="mr-1.5 mt-0.5 h-1 w-1 flex-shrink-0 rounded-full bg-gray-400" />
-                          {line}
-                        </li>
-                      ))}
-                    </ul>
+                    <p className="font-bold text-gray-900">
+                      {product.name}
+                      {product.id === featuredId && (
+                        <span className="ml-2 align-middle rounded-full bg-[#E67E22] px-2 py-0.5 text-[10px] font-bold tracking-wider text-white">
+                          MOST CHOSEN
+                        </span>
+                      )}
+                    </p>
+                    <p className="text-xs text-gray-500">{product.tagline}</p>
                   </div>
                 </div>
                 <span className="text-lg font-bold text-gray-900 whitespace-nowrap">

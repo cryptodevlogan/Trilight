@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Play, X, Check, Zap, Clock, Shield, Users, Compass, ArrowRight, Mail } from "lucide-react"
+import { Play, X, Check, ArrowRight, Mail } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
 import BuyBox from "@/components/buy-box"
 import { PRODUCTS, type Product } from "@/lib/products"
@@ -89,7 +89,7 @@ export default function TrilightProductPage() {
         </div>
 
         {/* Product Hero */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-12 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-12 pb-14">
           {/* Media Gallery — per-bundle: images then videos */}
           <div className="space-y-4">
             <div className="bg-gray-100 rounded-lg overflow-hidden aspect-square relative">
@@ -122,7 +122,7 @@ export default function TrilightProductPage() {
                   key={index}
                   type="button"
                   className={`bg-gray-100 rounded-lg overflow-hidden aspect-square relative cursor-pointer border-2 transition-all ${
-                    selectedMedia === index ? "border-black" : "border-transparent hover:border-gray-300"
+                    selectedMedia === index ? "border-[#E67E22]" : "border-transparent hover:border-gray-300"
                   }`}
                   onClick={() => handleMediaClick(index)}
                 >
@@ -155,13 +155,13 @@ export default function TrilightProductPage() {
                 {t("product2.badge")}
               </div>
               <p className="text-xs font-bold tracking-widest text-gray-400 mb-2">{t("product2.title")}</p>
-              <h1 className="text-2xl sm:text-3xl font-bold mb-3">{product.name}</h1>
+              <h1 className="text-3xl sm:text-4xl font-bold mb-3">{product.name}</h1>
               <p className="text-gray-600 leading-relaxed">
                 {product.blurb}
               </p>
             </div>
 
-            {/* What's included — changes per selected kit */}
+            {/* What's included — the single source; changes per selected kit */}
             <div className="border-t border-b py-6 mb-6">
               <p className="text-xs font-bold tracking-widest text-gray-500 mb-4">WHAT&apos;S INCLUDED</p>
               <div className="space-y-3">
@@ -184,7 +184,7 @@ export default function TrilightProductPage() {
             </div>
 
             {/* Buy box — pick a kit and check out (drives the gallery above) */}
-            <div id="buy">
+            <div id="buy" className="mb-8">
               <BuyBox selectedId={selectedProductId} onSelectProduct={handleSelectProduct} />
             </div>
 
@@ -203,74 +203,20 @@ export default function TrilightProductPage() {
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Old Way vs. TRILIGHT — full width comparison */}
-      <section className="relative overflow-hidden scroll-reveal">
-        <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[500px]">
-          {/* Image side */}
-          <div className="relative h-[400px] lg:h-auto">
-            <Image
-              src="/he_shouldn't_be_202603251254.png"
-              alt="TRILIGHT LED triangle glowing next to a traditional reflective triangle on a dark highway"
-              fill
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-black/40"></div>
-          </div>
-          {/* Text side */}
-          <div className="bg-black text-white p-10 sm:p-14 lg:p-16 flex flex-col justify-center">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-8 tracking-tight">
-              {t("product2.comparison.title")}
-            </h2>
-            <div className="space-y-8">
-              <div>
-                <p className="text-xs font-bold tracking-widest text-red-400 mb-3">{t("product2.comparison.oldLabel")}</p>
-                <ul className="space-y-2 text-gray-400 text-sm">
-                  <li className="flex items-start gap-2">
-                    <X className="h-4 w-4 text-red-400 flex-shrink-0 mt-0.5" />
-                    {t("product2.comparison.old.1")}
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <X className="h-4 w-4 text-red-400 flex-shrink-0 mt-0.5" />
-                    {t("product2.comparison.old.2")}
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <X className="h-4 w-4 text-red-400 flex-shrink-0 mt-0.5" />
-                    {t("product2.comparison.old.3")}
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <X className="h-4 w-4 text-red-400 flex-shrink-0 mt-0.5" />
-                    {t("product2.comparison.old.4")}
-                  </li>
-                </ul>
+        {/* Spec strip — the answers buyers actually ask before purchase */}
+        <div className="border-t border-b py-10 mb-6">
+          <p className="text-xs font-bold tracking-widest text-[#E67E22] mb-8">{t("product2.strip.title")}</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-8">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i}>
+                <p className="stat-value text-3xl">{t(`product2.strip.${i}.value`)}</p>
+                <p className="text-xs text-gray-500 mt-1.5 leading-snug">{t(`product2.strip.${i}.label`)}</p>
               </div>
-              <div className="h-px bg-white/10"></div>
-              <div>
-                <p className="text-xs font-bold tracking-widest text-[#E67E22] mb-3">{t("product2.comparison.newLabel")}</p>
-                <ul className="space-y-2 text-gray-300 text-sm">
-                  <li className="flex items-start gap-2">
-                    <Check className="h-4 w-4 text-[#E67E22] flex-shrink-0 mt-0.5" />
-                    {t("product2.comparison.new.1")}
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Check className="h-4 w-4 text-[#E67E22] flex-shrink-0 mt-0.5" />
-                    {t("product2.comparison.new.2")}
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Check className="h-4 w-4 text-[#E67E22] flex-shrink-0 mt-0.5" />
-                    {t("product2.comparison.new.3")}
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Check className="h-4 w-4 text-[#E67E22] flex-shrink-0 mt-0.5" />
-                    {t("product2.comparison.new.4")}
-                  </li>
-                </ul>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Inline Video */}
       <section className="bg-gray-50 py-20 sm:py-24 scroll-reveal">
@@ -349,7 +295,8 @@ export default function TrilightProductPage() {
         </div>
       </section>
 
-      {/* 5 Use Cases */}
+      {/* The differentiator — directional arrows, shown with the real chevron footage.
+          The rest of the feature story lives on the marketing pages; this page sells. */}
       <section className="bg-white py-20 sm:py-24">
         <div className="container mx-auto px-4 max-w-7xl scroll-reveal">
           <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-center">{t("product2.usecases.title")}</h2>
@@ -357,115 +304,26 @@ export default function TrilightProductPage() {
             {t("product2.usecases.subtitle")}
           </p>
 
-          {/* Directional Arrows — hero card */}
-          <div className="bg-black text-white rounded-2xl p-8 sm:p-12 mb-8 scroll-reveal">
-            <div className="flex flex-col md:flex-row gap-8 items-center">
-              <div className="w-16 h-16 bg-[#E67E22]/20 rounded-2xl flex items-center justify-center flex-shrink-0">
-                <Compass className="h-8 w-8 text-[#E67E22]" />
-              </div>
-              <div>
+          <div className="bg-black text-white rounded-2xl overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-2">
+              <div className="p-8 sm:p-12 flex flex-col justify-center">
                 <h3 className="text-xl font-bold mb-3">{t("product2.usecase.arrows.title")}</h3>
                 <p className="text-gray-400 leading-relaxed">
                   {t("product2.usecase.arrows.desc")}
                 </p>
               </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-gray-50 rounded-xl p-7 border border-gray-100 hover:shadow-lg transition-shadow">
-              <div className="flex gap-5 items-start">
-                <div className="w-11 h-11 bg-[#E67E22]/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Zap className="h-5 w-5 text-[#E67E22]" />
-                </div>
-                <div>
-                  <h3 className="font-bold mb-2">{t("product2.usecase.mount.title")}</h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    {t("product2.usecase.mount.desc")}
-                  </p>
-                </div>
+              <div className="relative min-h-[240px]">
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  poster="/trilight-chevron-poster.jpg"
+                  className="absolute inset-0 h-full w-full object-cover"
+                >
+                  <source src="/chevron.mp4" type="video/mp4" />
+                </video>
               </div>
-            </div>
-
-            <div className="bg-gray-50 rounded-xl p-7 border border-gray-100 hover:shadow-lg transition-shadow">
-              <div className="flex gap-5 items-start">
-                <div className="w-11 h-11 bg-[#E67E22]/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Shield className="h-5 w-5 text-[#E67E22]" />
-                </div>
-                <div>
-                  <h3 className="font-bold mb-2">{t("product2.usecase.triangle.title")}</h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    {t("product2.usecase.triangle.desc")}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-gray-50 rounded-xl p-7 border border-gray-100 hover:shadow-lg transition-shadow">
-              <div className="flex gap-5 items-start">
-                <div className="w-11 h-11 bg-[#E67E22]/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Users className="h-5 w-5 text-[#E67E22]" />
-                </div>
-                <div>
-                  <h3 className="font-bold mb-2">{t("product2.usecase.harness.title")}</h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    {t("product2.usecase.harness.desc")}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-gray-50 rounded-xl p-7 border border-gray-100 hover:shadow-lg transition-shadow">
-              <div className="flex gap-5 items-start">
-                <div className="w-11 h-11 bg-[#E67E22]/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Clock className="h-5 w-5 text-[#E67E22]" />
-                </div>
-                <div>
-                  <h3 className="font-bold mb-2">{t("product2.usecase.dock.title")}</h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    {t("product2.usecase.dock.desc")}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* What's Included — separate from use cases */}
-      <section className="bg-gray-50 py-14">
-        <div className="container mx-auto px-4 max-w-3xl scroll-reveal">
-          <div className="flex flex-col sm:flex-row gap-8 items-start">
-            <div className="flex-1">
-              <h3 className="text-xl font-bold mb-4">{t("product2.box.title")}</h3>
-              <div className="space-y-2">
-                {[
-                  t("product2.box.1"),
-                  t("product2.box.2"),
-                  t("product2.box.3"),
-                ].map((item) => (
-                  <div key={item} className="flex items-center text-sm">
-                    <div className="w-1.5 h-1.5 bg-black rounded-full mr-3"></div>
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="flex-1">
-              <h3 className="text-xl font-bold mb-4">{t("product2.addons.title")}</h3>
-              <div className="space-y-2">
-                {[
-                  t("product2.addons.1"),
-                  t("product2.addons.2"),
-                  t("product2.addons.3"),
-                ].map((item) => (
-                  <div key={item} className="flex items-center text-sm">
-                    <div className="w-1.5 h-1.5 bg-[#E67E22] rounded-full mr-3"></div>
-                    {item}
-                  </div>
-                ))}
-              </div>
-              <p className="text-xs text-gray-500 mt-3">{t("product2.addons.note")}</p>
             </div>
           </div>
         </div>

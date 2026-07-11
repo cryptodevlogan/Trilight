@@ -246,15 +246,17 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            <div>
-              <h2 className="text-4xl sm:text-5xl font-bold mb-6 tracking-tight">{t("home.revolution.title")}</h2>
-              <p className="text-xl text-gray-600 leading-relaxed mb-8">
-                {t("home.revolution.subtitle")}
-              </p>
-              <p className="text-lg text-gray-600 leading-relaxed">
-                {t("home.revolution.detail")}
-              </p>
-              <div className="mt-10 pt-4 border-t border-gray-200 divide-y divide-gray-100">
+            <div className="flex flex-col">
+              <h2 className="order-1 text-4xl sm:text-5xl font-bold tracking-tight">{t("home.revolution.title")}</h2>
+              <div className="order-3 lg:order-2 mt-8 lg:mt-6">
+                <p className="text-xl text-gray-600 leading-relaxed mb-8">
+                  {t("home.revolution.subtitle")}
+                </p>
+                <p className="text-lg text-gray-600 leading-relaxed">
+                  {t("home.revolution.detail")}
+                </p>
+              </div>
+              <div className="order-2 lg:order-3 mt-8 lg:mt-10 pt-4 border-t border-gray-200 divide-y divide-gray-100">
                 {MODES.map((m) => (
                   <button
                     key={m.key}

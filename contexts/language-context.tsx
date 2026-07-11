@@ -1,6 +1,7 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
+import translations from "@/lib/translations"
 
 type Language = "en" | "es"
 
@@ -14,7 +15,6 @@ const LanguageContext = createContext<LanguageContextType | null>(null)
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Language>("en")
-  const [translations, setTranslations] = useState<Record<string, string>>({})
 
   useEffect(() => {
     const saved = localStorage.getItem("trilight-lang") as Language | null
@@ -23,19 +23,15 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
-  useEffect(() => {
-    import("@/lib/translations").then((mod) => {
-      setTranslations(mod.default[lang])
-    })
-  }, [lang])
-
   const setLang = (newLang: Language) => {
     setLangState(newLang)
     localStorage.setItem("trilight-lang", newLang)
   }
 
+  const dict: Record<string, string> = translations[lang]
+
   const t = (key: string): string => {
-    return translations[key] || key
+    return dict[key] || key
   }
 
   return (

@@ -232,6 +232,22 @@ button,
   transform: translateY(-2px);
 }
 
+/* ─── Glow Bloom (orange LED light behind media) ─── */
+
+.glow-bloom {
+  position: absolute;
+  inset: -12%;
+  background: radial-gradient(closest-side, rgba(230, 126, 34, 0.28), transparent 72%);
+  pointer-events: none;
+}
+
+/* ─── Diagram Beacon (pulsing LED dot in deployment diagram) ─── */
+
+.diagram-beacon {
+  box-shadow: 0 0 16px rgba(230, 126, 34, 0.6), 0 0 36px rgba(230, 126, 34, 0.25);
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
 /* ─── Accent Bullet ─── */
 
 .accent-dot {
@@ -295,6 +311,7 @@ input:focus-visible {
   .hero-animate-delay-2,
   .scroll-cue-inner,
   .cta-glow:hover,
+  .diagram-beacon,
   .feature-item:hover {
     animation: none !important;
     transform: none !important;
